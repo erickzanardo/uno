@@ -1,0 +1,388 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'palette.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+UnoPalette _$UnoPaletteFromJson(Map<String, dynamic> json) {
+  return _UnoPalette.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UnoPalette {
+  List<UnoPaletteItem> get items => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UnoPaletteCopyWith<UnoPalette> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UnoPaletteCopyWith<$Res> {
+  factory $UnoPaletteCopyWith(
+          UnoPalette value, $Res Function(UnoPalette) then) =
+      _$UnoPaletteCopyWithImpl<$Res, UnoPalette>;
+  @useResult
+  $Res call({List<UnoPaletteItem> items});
+}
+
+/// @nodoc
+class _$UnoPaletteCopyWithImpl<$Res, $Val extends UnoPalette>
+    implements $UnoPaletteCopyWith<$Res> {
+  _$UnoPaletteCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+  }) {
+    return _then(_value.copyWith(
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<UnoPaletteItem>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_UnoPaletteCopyWith<$Res>
+    implements $UnoPaletteCopyWith<$Res> {
+  factory _$$_UnoPaletteCopyWith(
+          _$_UnoPalette value, $Res Function(_$_UnoPalette) then) =
+      __$$_UnoPaletteCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<UnoPaletteItem> items});
+}
+
+/// @nodoc
+class __$$_UnoPaletteCopyWithImpl<$Res>
+    extends _$UnoPaletteCopyWithImpl<$Res, _$_UnoPalette>
+    implements _$$_UnoPaletteCopyWith<$Res> {
+  __$$_UnoPaletteCopyWithImpl(
+      _$_UnoPalette _value, $Res Function(_$_UnoPalette) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+  }) {
+    return _then(_$_UnoPalette(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<UnoPaletteItem>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_UnoPalette implements _UnoPalette {
+  const _$_UnoPalette({required final List<UnoPaletteItem> items})
+      : _items = items;
+
+  factory _$_UnoPalette.fromJson(Map<String, dynamic> json) =>
+      _$$_UnoPaletteFromJson(json);
+
+  final List<UnoPaletteItem> _items;
+  @override
+  List<UnoPaletteItem> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  String toString() {
+    return 'UnoPalette(items: $items)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UnoPalette &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UnoPaletteCopyWith<_$_UnoPalette> get copyWith =>
+      __$$_UnoPaletteCopyWithImpl<_$_UnoPalette>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UnoPaletteToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnoPalette implements UnoPalette {
+  const factory _UnoPalette({required final List<UnoPaletteItem> items}) =
+      _$_UnoPalette;
+
+  factory _UnoPalette.fromJson(Map<String, dynamic> json) =
+      _$_UnoPalette.fromJson;
+
+  @override
+  List<UnoPaletteItem> get items;
+  @override
+  @JsonKey(ignore: true)
+  _$$_UnoPaletteCopyWith<_$_UnoPalette> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UnoPaletteItem _$UnoPaletteItemFromJson(Map<String, dynamic> json) {
+  return _UnoPaletteItem.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UnoPaletteItem {
+  String get id => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  Map<String, String> get data => throw _privateConstructorUsedError;
+  String? get icon => throw _privateConstructorUsedError;
+  String? get iconSprite => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UnoPaletteItemCopyWith<UnoPaletteItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UnoPaletteItemCopyWith<$Res> {
+  factory $UnoPaletteItemCopyWith(
+          UnoPaletteItem value, $Res Function(UnoPaletteItem) then) =
+      _$UnoPaletteItemCopyWithImpl<$Res, UnoPaletteItem>;
+  @useResult
+  $Res call(
+      {String id,
+      String type,
+      Map<String, String> data,
+      String? icon,
+      String? iconSprite});
+}
+
+/// @nodoc
+class _$UnoPaletteItemCopyWithImpl<$Res, $Val extends UnoPaletteItem>
+    implements $UnoPaletteItemCopyWith<$Res> {
+  _$UnoPaletteItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? data = null,
+    Object? icon = freezed,
+    Object? iconSprite = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String?,
+      iconSprite: freezed == iconSprite
+          ? _value.iconSprite
+          : iconSprite // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_UnoPaletteItemCopyWith<$Res>
+    implements $UnoPaletteItemCopyWith<$Res> {
+  factory _$$_UnoPaletteItemCopyWith(
+          _$_UnoPaletteItem value, $Res Function(_$_UnoPaletteItem) then) =
+      __$$_UnoPaletteItemCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String type,
+      Map<String, String> data,
+      String? icon,
+      String? iconSprite});
+}
+
+/// @nodoc
+class __$$_UnoPaletteItemCopyWithImpl<$Res>
+    extends _$UnoPaletteItemCopyWithImpl<$Res, _$_UnoPaletteItem>
+    implements _$$_UnoPaletteItemCopyWith<$Res> {
+  __$$_UnoPaletteItemCopyWithImpl(
+      _$_UnoPaletteItem _value, $Res Function(_$_UnoPaletteItem) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? data = null,
+    Object? icon = freezed,
+    Object? iconSprite = freezed,
+  }) {
+    return _then(_$_UnoPaletteItem(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String?,
+      iconSprite: freezed == iconSprite
+          ? _value.iconSprite
+          : iconSprite // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_UnoPaletteItem implements _UnoPaletteItem {
+  const _$_UnoPaletteItem(
+      {required this.id,
+      required this.type,
+      required final Map<String, String> data,
+      this.icon,
+      this.iconSprite})
+      : _data = data;
+
+  factory _$_UnoPaletteItem.fromJson(Map<String, dynamic> json) =>
+      _$$_UnoPaletteItemFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String type;
+  final Map<String, String> _data;
+  @override
+  Map<String, String> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_data);
+  }
+
+  @override
+  final String? icon;
+  @override
+  final String? iconSprite;
+
+  @override
+  String toString() {
+    return 'UnoPaletteItem(id: $id, type: $type, data: $data, icon: $icon, iconSprite: $iconSprite)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UnoPaletteItem &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
+            (identical(other.iconSprite, iconSprite) ||
+                other.iconSprite == iconSprite));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type,
+      const DeepCollectionEquality().hash(_data), icon, iconSprite);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UnoPaletteItemCopyWith<_$_UnoPaletteItem> get copyWith =>
+      __$$_UnoPaletteItemCopyWithImpl<_$_UnoPaletteItem>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UnoPaletteItemToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnoPaletteItem implements UnoPaletteItem {
+  const factory _UnoPaletteItem(
+      {required final String id,
+      required final String type,
+      required final Map<String, String> data,
+      final String? icon,
+      final String? iconSprite}) = _$_UnoPaletteItem;
+
+  factory _UnoPaletteItem.fromJson(Map<String, dynamic> json) =
+      _$_UnoPaletteItem.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get type;
+  @override
+  Map<String, String> get data;
+  @override
+  String? get icon;
+  @override
+  String? get iconSprite;
+  @override
+  @JsonKey(ignore: true)
+  _$$_UnoPaletteItemCopyWith<_$_UnoPaletteItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
