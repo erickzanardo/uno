@@ -6,7 +6,6 @@ part 'level.g.dart';
 
 @freezed
 class UnoLevel with _$UnoLevel {
-
   const factory UnoLevel({
     required int width,
     required int height,

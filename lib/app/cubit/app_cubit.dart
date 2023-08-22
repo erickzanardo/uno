@@ -23,10 +23,10 @@ class AppCubit extends Cubit<AppState> {
     final path = await _getDirectoryPath();
     if (path != null) {
       try {
-      emit(const AppLoading());
-      final project = await _levelRepository.fetchProject(path);
-      emit(AppLoaded(project: project));
-      } catch(e) {
+        emit(const AppLoading());
+        final project = await _levelRepository.fetchProject(path);
+        emit(AppLoaded(project: project));
+      } catch (e) {
         emit(AppLoadError(message: e.toString()));
       }
     }
