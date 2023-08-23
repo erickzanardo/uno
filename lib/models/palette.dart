@@ -7,6 +7,7 @@ part 'palette.g.dart';
 class UnoPalette with _$UnoPalette {
   const factory UnoPalette({
     required List<UnoPaletteItem> items,
+    Map<String, String>? levelMetadata,
   }) = _UnoPalette;
 
   factory UnoPalette.fromJson(Map<String, dynamic> json) =>

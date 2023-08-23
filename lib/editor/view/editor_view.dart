@@ -34,7 +34,6 @@ class _EditorViewState extends State<EditorView> {
     _nameController.text = cubit.state.fileName;
     _widthController.text = cubit.state.level.width.toString();
     _heightController.text = cubit.state.level.height.toString();
-    // TODO(erickzanardo): metadata form
   }
 
   @override
@@ -138,6 +137,22 @@ class _EditorViewState extends State<EditorView> {
                         onChanged: cubit.updateHeight,
                       ),
                     ),
+                    if (cubit.state.level.metadata.isNotEmpty)
+                      NesButton(
+                        type: NesButtonType.normal,
+                        onPressed: () {
+                          NesDialog.show(
+                            context: context,
+                            builder: (_) {
+                              return _ObjectDialogForm(
+                                data: cubit.state.level.metadata,
+                                onChange: cubit.updateLevelMetadata,
+                              );
+                            },
+                          );
+                        },
+                        child: const Text('Metadata'),
+                      ),
                   ],
                 ),
               ),

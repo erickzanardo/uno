@@ -11,11 +11,15 @@ _$_UnoPalette _$$_UnoPaletteFromJson(Map<String, dynamic> json) =>
       items: (json['items'] as List<dynamic>)
           .map((e) => UnoPaletteItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      levelMetadata: (json['levelMetadata'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
     );
 
 Map<String, dynamic> _$$_UnoPaletteToJson(_$_UnoPalette instance) =>
     <String, dynamic>{
       'items': instance.items,
+      'levelMetadata': instance.levelMetadata,
     };
 
 _$_UnoPaletteItem _$$_UnoPaletteItemFromJson(Map<String, dynamic> json) =>

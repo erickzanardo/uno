@@ -9,16 +9,17 @@ class EditorCubit extends Cubit<EditorState> {
   EditorCubit({
     required String fileName,
     required LevelRepository levelRepository,
+    required UnoProject project,
   })  : _fileName = fileName,
         _levelRepository = levelRepository,
         super(
           EditorState(
             fileName: fileName,
-            level: const UnoLevel(
+            level: UnoLevel(
               width: 10,
               height: 10,
               objects: [],
-              metadata: {},
+              metadata: {...?project.palette.levelMetadata},
             ),
           ),
         );
@@ -122,6 +123,19 @@ class EditorCubit extends Cubit<EditorState> {
               return levelObjectData;
             }
           }).toList(),
+        ),
+      ),
+    );
+  }
+
+  void updateLevelMetadata(String key, String value) {
+    emit(
+      state.copyWith(
+        level: state.level.copyWith(
+          metadata: {
+            ...state.level.metadata,
+            key: value,
+          },
         ),
       ),
     );

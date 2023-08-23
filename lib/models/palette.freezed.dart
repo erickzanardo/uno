@@ -21,6 +21,7 @@ UnoPalette _$UnoPaletteFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UnoPalette {
   List<UnoPaletteItem> get items => throw _privateConstructorUsedError;
+  Map<String, String>? get levelMetadata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $UnoPaletteCopyWith<$Res> {
           UnoPalette value, $Res Function(UnoPalette) then) =
       _$UnoPaletteCopyWithImpl<$Res, UnoPalette>;
   @useResult
-  $Res call({List<UnoPaletteItem> items});
+  $Res call({List<UnoPaletteItem> items, Map<String, String>? levelMetadata});
 }
 
 /// @nodoc
@@ -51,12 +52,17 @@ class _$UnoPaletteCopyWithImpl<$Res, $Val extends UnoPalette>
   @override
   $Res call({
     Object? items = null,
+    Object? levelMetadata = freezed,
   }) {
     return _then(_value.copyWith(
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<UnoPaletteItem>,
+      levelMetadata: freezed == levelMetadata
+          ? _value.levelMetadata
+          : levelMetadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ) as $Val);
   }
 }
@@ -69,7 +75,7 @@ abstract class _$$_UnoPaletteCopyWith<$Res>
       __$$_UnoPaletteCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<UnoPaletteItem> items});
+  $Res call({List<UnoPaletteItem> items, Map<String, String>? levelMetadata});
 }
 
 /// @nodoc
@@ -84,12 +90,17 @@ class __$$_UnoPaletteCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = null,
+    Object? levelMetadata = freezed,
   }) {
     return _then(_$_UnoPalette(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
               as List<UnoPaletteItem>,
+      levelMetadata: freezed == levelMetadata
+          ? _value._levelMetadata
+          : levelMetadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ));
   }
 }
@@ -97,8 +108,11 @@ class __$$_UnoPaletteCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_UnoPalette implements _UnoPalette {
-  const _$_UnoPalette({required final List<UnoPaletteItem> items})
-      : _items = items;
+  const _$_UnoPalette(
+      {required final List<UnoPaletteItem> items,
+      final Map<String, String>? levelMetadata})
+      : _items = items,
+        _levelMetadata = levelMetadata;
 
   factory _$_UnoPalette.fromJson(Map<String, dynamic> json) =>
       _$$_UnoPaletteFromJson(json);
@@ -111,9 +125,19 @@ class _$_UnoPalette implements _UnoPalette {
     return EqualUnmodifiableListView(_items);
   }
 
+  final Map<String, String>? _levelMetadata;
+  @override
+  Map<String, String>? get levelMetadata {
+    final value = _levelMetadata;
+    if (value == null) return null;
+    if (_levelMetadata is EqualUnmodifiableMapView) return _levelMetadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   String toString() {
-    return 'UnoPalette(items: $items)';
+    return 'UnoPalette(items: $items, levelMetadata: $levelMetadata)';
   }
 
   @override
@@ -121,13 +145,17 @@ class _$_UnoPalette implements _UnoPalette {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UnoPalette &&
-            const DeepCollectionEquality().equals(other._items, _items));
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality()
+                .equals(other._levelMetadata, _levelMetadata));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      const DeepCollectionEquality().hash(_levelMetadata));
 
   @JsonKey(ignore: true)
   @override
@@ -144,14 +172,17 @@ class _$_UnoPalette implements _UnoPalette {
 }
 
 abstract class _UnoPalette implements UnoPalette {
-  const factory _UnoPalette({required final List<UnoPaletteItem> items}) =
-      _$_UnoPalette;
+  const factory _UnoPalette(
+      {required final List<UnoPaletteItem> items,
+      final Map<String, String>? levelMetadata}) = _$_UnoPalette;
 
   factory _UnoPalette.fromJson(Map<String, dynamic> json) =
       _$_UnoPalette.fromJson;
 
   @override
   List<UnoPaletteItem> get items;
+  @override
+  Map<String, String>? get levelMetadata;
   @override
   @JsonKey(ignore: true)
   _$$_UnoPaletteCopyWith<_$_UnoPalette> get copyWith =>
