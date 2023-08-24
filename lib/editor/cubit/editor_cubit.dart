@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as path;
 import 'package:uno/models/models.dart';
 import 'package:uno/repositories/repositories.dart';
 
@@ -12,6 +13,7 @@ class EditorCubit extends Cubit<EditorState> {
     required UnoProject project,
   })  : _fileName = fileName,
         _levelRepository = levelRepository,
+        _project = project,
         super(
           EditorState(
             fileName: fileName,
@@ -29,6 +31,8 @@ class EditorCubit extends Cubit<EditorState> {
   String? _fileName;
 
   bool get isEdition => _fileName != '';
+
+  final UnoProject _project;
 
   void clearSelectedObject() {
     emit(state.clearSelectedObject());
@@ -154,14 +158,21 @@ class EditorCubit extends Cubit<EditorState> {
       emit(state.copyWith(status: EditorStatus.emptyFileName));
     } else {
       if ((_fileName?.isNotEmpty ?? false) && state.fileName != _fileName) {
-        await _levelRepository.deleteLevel(_fileName!);
+        final previousFileName = path.join(
+          _project.projecPath,
+          _fileName,
+        );
+        await _levelRepository.deleteLevel(previousFileName);
         _fileName = state.fileName;
       }
 
+      final levelPath = path.join(_project.projecPath, state.fileName);
       await _levelRepository.saveLevel(
-        fileName: state.fileName,
+        fileName: levelPath,
         data: state.level,
       );
+
+      emit(state.copyWith(status: EditorStatus.saved));
     }
   }
 }

@@ -19,9 +19,8 @@ class LevelRepository {
     final directory = Directory(directoryPath);
 
     final files = directory.listSync();
-    final levels = files.where((file) => file.path.endsWith('.uno')).toList();
-    final palettes =
-        files.where((file) => file.path.endsWith('.uno.palette')).toList();
+    final levels = files.where((file) => !file.path.endsWith('.uno')).toList();
+    final palettes = files.where((file) => file.path.endsWith('.uno')).toList();
 
     if (palettes.length != 1) {
       throw const LevelRepositoryFailure(

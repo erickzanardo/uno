@@ -53,12 +53,21 @@ class _EditorViewState extends State<EditorView> {
 
     return BlocListener<EditorCubit, EditorState>(
       listenWhen: (previous, current) {
-        return current.status == EditorStatus.loaded &&
+        return (current.status == EditorStatus.loaded ||
+                current.status == EditorStatus.saved) &&
             previous.status != current.status;
       },
       listener: (context, state) {
-        _widthController.text = state.level.width.toString();
-        _heightController.text = state.level.height.toString();
+        if (state.status == EditorStatus.loaded) {
+          _widthController.text = state.level.width.toString();
+          _heightController.text = state.level.height.toString();
+        } else if (state.status == EditorStatus.saved) {
+          NesSnackbar.show(
+            context,
+            text: 'Saved',
+            type: NesSnackbarType.success,
+          );
+        }
       },
       child: Scaffold(
         body: NesContainer(
@@ -74,13 +83,7 @@ class _EditorViewState extends State<EditorView> {
                         NesIconButton(
                           icon: NesIcons.instance.saveFile,
                           onPress: () async {
-                            await cubit.save().then((_) {
-                              NesSnackbar.show(
-                                context,
-                                text: 'Saved',
-                                type: NesSnackbarType.success,
-                              );
-                            });
+                            await cubit.save();
                           },
                         ),
                         const SizedBox(width: 16),

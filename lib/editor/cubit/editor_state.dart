@@ -3,6 +3,7 @@ part of 'editor_cubit.dart';
 enum EditorStatus {
   initial,
   loaded,
+  saved,
   emptyFileName,
 }
 
