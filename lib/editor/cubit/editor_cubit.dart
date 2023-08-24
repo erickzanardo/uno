@@ -149,7 +149,8 @@ class EditorCubit extends Cubit<EditorState> {
     if (state.fileName.isEmpty) {
       return;
     }
-    final data = await _levelRepository.loadData(state.fileName);
+    final levelPath = path.join(_project.projecPath, state.fileName);
+    final data = await _levelRepository.loadData(levelPath);
     emit(state.copyWith(level: data, status: EditorStatus.loaded));
   }
 

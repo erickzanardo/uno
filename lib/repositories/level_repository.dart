@@ -24,7 +24,7 @@ class LevelRepository {
 
     if (palettes.length != 1) {
       throw const LevelRepositoryFailure(
-        message: 'There must be exactly one .palette.uno file in the directory',
+        message: 'There must be exactly one .uno file in the directory',
       );
     }
 

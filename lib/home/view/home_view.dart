@@ -51,6 +51,7 @@ class HomeView extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     for (final level in appState.project.levels)
                       Padding(
@@ -64,7 +65,12 @@ class HomeView extends StatelessWidget {
                             );
                           },
                           child: NesContainer(
-                            child: Text(level),
+                            child: Text(
+                              path.relative(
+                                level,
+                                from: appState.project.projecPath,
+                              ),
+                            ),
                           ),
                         ),
                       ),
