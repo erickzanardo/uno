@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as path;
-import 'package:uno/models/models.dart';
 import 'package:uno/repositories/repositories.dart';
+import 'package:uno_data/uno_data.dart';
 
 part 'editor_state.dart';
 

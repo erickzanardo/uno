@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:uno/models/models.dart';
+import 'package:uno_data/uno_data.dart';
 
 class LevelRepositoryFailure implements Exception {
   const LevelRepositoryFailure({

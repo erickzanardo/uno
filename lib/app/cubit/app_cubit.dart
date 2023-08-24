@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uno/models/models.dart';
 import 'package:uno/repositories/level_repository.dart';
+import 'package:uno_data/uno_data.dart';
 
 part 'app_state.dart';
 

@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:spritexp/spritexp.dart';
 import 'package:uno/app/app.dart';
 import 'package:uno/editor/editor.dart';
-import 'package:uno/models/models.dart';
+import 'package:uno_data/uno_data.dart';
 
 class EditorView extends StatefulWidget {
   const EditorView({super.key});
