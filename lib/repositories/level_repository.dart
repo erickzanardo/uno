@@ -19,7 +19,8 @@ class LevelRepository {
     final directory = Directory(directoryPath);
 
     final files = directory.listSync();
-    final levels = files.where((file) => !file.path.endsWith('.uno')).toList();
+    final levels = files.where((file) => !file.path.endsWith('.uno')).toList()
+      ..sort((a, b) => a.path.compareTo(b.path));
     final palettes = files.where((file) => file.path.endsWith('.uno')).toList();
 
     if (palettes.length != 1) {
