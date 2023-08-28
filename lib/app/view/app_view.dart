@@ -54,12 +54,27 @@ class _SelectProject extends StatelessWidget {
       },
       child: Scaffold(
         body: Center(
-          child: NesButton(
-            type: NesButtonType.primary,
-            child: const Text('Select Project'),
-            onPressed: () {
-              context.read<AppCubit>().selectProject();
-            },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 16),
+              Image.asset(
+                'assets/icon.png',
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'UNO',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              const SizedBox(height: 48),
+              NesButton(
+                type: NesButtonType.primary,
+                child: const Text('Select Project'),
+                onPressed: () {
+                  context.read<AppCubit>().selectProject();
+                },
+              ),
+            ],
           ),
         ),
       ),
