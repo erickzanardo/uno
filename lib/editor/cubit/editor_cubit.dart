@@ -173,7 +173,12 @@ class EditorCubit extends Cubit<EditorState> {
         data: state.level,
       );
 
-      emit(state.copyWith(status: EditorStatus.saved));
+      emit(
+        state.copyWith(
+          status: EditorStatus.saved,
+          lastSaved: DateTime.now(),
+        ),
+      );
     }
   }
 }

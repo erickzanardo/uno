@@ -53,9 +53,9 @@ class _EditorViewState extends State<EditorView> {
 
     return BlocListener<EditorCubit, EditorState>(
       listenWhen: (previous, current) {
-        return (current.status == EditorStatus.loaded ||
-                current.status == EditorStatus.saved) &&
-            previous.status != current.status;
+        return (current.status == EditorStatus.loaded &&
+                previous.status != current.status) ||
+            current.status == EditorStatus.saved;
       },
       listener: (context, state) {
         if (state.status == EditorStatus.loaded) {

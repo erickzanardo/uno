@@ -13,6 +13,7 @@ class EditorState extends Equatable {
     required this.level,
     this.status = EditorStatus.initial,
     this.selectedItem,
+    this.lastSaved,
   });
 
   final String fileName;
@@ -23,18 +24,22 @@ class EditorState extends Equatable {
 
   final EditorStatus status;
 
+  final DateTime? lastSaved;
+
   EditorState copyWith({
     String? fileName,
     UnoLevel? level,
     EditorStatus? status,
     UnoPaletteItem? selectedItem,
     String? dialogKey,
+    DateTime? lastSaved,
   }) {
     return EditorState(
       fileName: fileName ?? this.fileName,
       level: level ?? this.level,
       status: status ?? this.status,
       selectedItem: selectedItem ?? this.selectedItem,
+      lastSaved: lastSaved ?? this.lastSaved,
     );
   }
 
@@ -53,5 +58,6 @@ class EditorState extends Equatable {
         level,
         status,
         selectedItem,
+        lastSaved,
       ];
 }
