@@ -42,10 +42,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-example/android
-example/ios
-example/macos
-example/linux
-example/windows
-example/web
