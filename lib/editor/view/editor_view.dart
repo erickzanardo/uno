@@ -55,7 +55,8 @@ class _EditorViewState extends State<EditorView> {
       listenWhen: (previous, current) {
         return (current.status == EditorStatus.loaded &&
                 previous.status != current.status) ||
-            current.status == EditorStatus.saved;
+            (current.status == EditorStatus.saved &&
+                current.lastSaved != previous.lastSaved);
       },
       listener: (context, state) {
         if (state.status == EditorStatus.loaded) {
