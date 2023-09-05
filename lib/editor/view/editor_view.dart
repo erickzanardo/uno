@@ -161,6 +161,25 @@ class _EditorViewState extends State<EditorView> {
                 ),
               ),
               const Divider(),
+              const SizedBox(height: 8),
+              Align(
+                child: NesContainer(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      NesTooltip(
+                        message: 'Remove all objects',
+                        arrowPlacement: NesTooltipArrowPlacement.left,
+                        child: NesIconButton(
+                          icon: NesIcons.instance.delete,
+                          onPress: cubit.clearObjects,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: 32),
               Expanded(
                 child: Row(

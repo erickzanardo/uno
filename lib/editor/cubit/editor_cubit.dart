@@ -145,6 +145,16 @@ class EditorCubit extends Cubit<EditorState> {
     );
   }
 
+  void clearObjects() {
+    emit(
+      state.copyWith(
+        level: state.level.copyWith(
+          objects: [],
+        ),
+      ),
+    );
+  }
+
   Future<void> loadData() async {
     if (state.fileName.isEmpty) {
       return;
