@@ -147,10 +147,14 @@ class _EditorViewState extends State<EditorView> {
                         onPressed: () {
                           NesDialog.show(
                             context: context,
-                            builder: (_) {
-                              return _ObjectDialogForm(
+                            builder: (context) {
+                              return _MetadataDialogForm(
                                 data: cubit.state.level.metadata,
                                 onChange: cubit.updateLevelMetadata,
+                                onReload: () {
+                                  cubit.reloadLevelMetadata();
+                                  Navigator.of(context).pop();
+                                },
                               );
                             },
                           );
@@ -368,7 +372,7 @@ class _DataObjectCell extends StatelessWidget {
               NesDialog.show(
                 context: context,
                 builder: (_) {
-                  return _ObjectDialogForm(
+                  return _MetadataDialogForm(
                     data: object.metadata.editableMetadata(),
                     onChange: (
                       key,
@@ -495,21 +499,24 @@ extension on String {
   }
 }
 
-class _ObjectDialogForm extends StatefulWidget {
-  const _ObjectDialogForm({
+class _MetadataDialogForm extends StatefulWidget {
+  const _MetadataDialogForm({
     required this.data,
     required this.onChange,
+    this.onReload,
   });
 
   final Map<String, String> data;
 
   final void Function(String, String) onChange;
 
+  final VoidCallback? onReload;
+
   @override
-  State<_ObjectDialogForm> createState() => _ObjectDialogFormState();
+  State<_MetadataDialogForm> createState() => _MetadataDialogFormState();
 }
 
-class _ObjectDialogFormState extends State<_ObjectDialogForm> {
+class _MetadataDialogFormState extends State<_MetadataDialogForm> {
   late final Map<String, TextEditingController> _controllers;
 
   @override
@@ -538,6 +545,17 @@ class _ObjectDialogFormState extends State<_ObjectDialogForm> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            if (widget.onReload != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: NesTooltip(
+                  message: 'Reload with template',
+                  child: NesIconButton(
+                    icon: NesIcons.instance.redo,
+                    onPress: widget.onReload,
+                  ),
+                ),
+              ),
             for (final entry in widget.data.entries)
               Column(
                 children: [

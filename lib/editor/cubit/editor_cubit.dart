@@ -155,6 +155,23 @@ class EditorCubit extends Cubit<EditorState> {
     );
   }
 
+  void reloadLevelMetadata() {
+    final projectMetadata = _project.palette.levelMetadata ?? {};
+
+    final newMetadata = {
+      ...projectMetadata,
+      ...state.level.metadata,
+    }..removeWhere((key, _) => !projectMetadata.containsKey(key));
+
+    emit(
+      state.copyWith(
+        level: state.level.copyWith(
+          metadata: newMetadata,
+        ),
+      ),
+    );
+  }
+
   Future<void> loadData() async {
     if (state.fileName.isEmpty) {
       return;
