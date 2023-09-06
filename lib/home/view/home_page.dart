@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider<HomeCubit>(
       create: (context) => HomeCubit(
         levelRepository: context.read<LevelRepository>(),
-      )..loadLevels(),
+      ),
       child: const HomeView(),
     );
   }

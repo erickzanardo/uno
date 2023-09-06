@@ -31,4 +31,17 @@ class AppCubit extends Cubit<AppState> {
       }
     }
   }
+
+  Future<void> reloadProject() async {
+    try {
+      if (state is AppLoaded) {
+        final project = await _levelRepository.fetchProject(
+          (state as AppLoaded).project.projecPath,
+        );
+        emit(AppLoaded(project: project));
+      }
+    } catch (e) {
+      emit(AppLoadError(message: e.toString()));
+    }
+  }
 }

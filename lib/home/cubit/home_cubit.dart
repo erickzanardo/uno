@@ -11,10 +11,4 @@ class HomeCubit extends Cubit<HomeState> {
         super(const HomeState());
 
   final LevelRepository _levelRepository;
-
-  Future<void> loadLevels() async {
-    //final levels = await _levelRepository.fetchLevels();
-
-    //emit(HomeState(levels: levels));
-  }
 }

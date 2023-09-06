@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
                   NesIconButton(
                     icon: NesIcons.instance.redo,
                     onPress: () {
-                      //context.read<AppCubit>().loadLevels();
+                      context.read<AppCubit>().reloadProject();
                     },
                   ),
                 ],
