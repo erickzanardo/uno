@@ -172,6 +172,36 @@ class EditorCubit extends Cubit<EditorState> {
     );
   }
 
+  void expand({
+    required int left,
+    required int right,
+    required int top,
+    required int bottom,
+  }) {
+    final level = state.level;
+    final objects = level.objects.map(
+      (object) {
+        final x = object.x;
+        final y = object.y;
+
+        return object.copyWith(
+          x: x + left,
+          y: y + top,
+        );
+      },
+    ).toList();
+
+    emit(
+      state.copyWith(
+        level: level.copyWith(
+          width: level.width + left + right,
+          height: level.height + top + bottom,
+          objects: objects,
+        ),
+      ),
+    );
+  }
+
   Future<void> loadData() async {
     if (state.fileName.isEmpty) {
       return;

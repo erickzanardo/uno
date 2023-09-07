@@ -87,4 +87,3 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
     );
   }
 }
-

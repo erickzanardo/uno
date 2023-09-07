@@ -139,7 +139,7 @@ class _EditorViewState extends State<EditorView> {
                       NesButton(
                         type: NesButtonType.normal,
                         onPressed: () {
-                          NesDialog.show(
+                          NesDialog.show<void>(
                             context: context,
                             builder: (context) {
                               return MetadataDialogForm(
@@ -172,6 +172,44 @@ class _EditorViewState extends State<EditorView> {
                         child: NesIconButton(
                           icon: NesIcons.instance.delete,
                           onPress: cubit.clearObjects,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      NesTooltip(
+                        message: 'Expand',
+                        arrowPlacement: NesTooltipArrowPlacement.left,
+                        child: NesIconButton(
+                          icon: NesIcons.instance.expand,
+                          onPress: () async {
+                            final cubit = context.read<EditorCubit>();
+                            final value = await NesDialog.show<ExpansionResult>(
+                              context: context,
+                              builder: (context) {
+                                return const ExpandForm();
+                              },
+                            );
+
+                            if (value != null) {
+                              cubit.expand(
+                                left: value.left,
+                                right: value.right,
+                                top: value.top,
+                                bottom: value.bottom,
+                              );
+
+                              // TODO(erickzanardo): Argh, this is not pretty,
+                              // but I need this feature ASAP
+                              // Leaving as is right now, but I need to refactor
+                              // this later.
+                              Future.delayed(const Duration(milliseconds: 200),
+                                  () {
+                                _widthController.text =
+                                    cubit.state.level.width.toString();
+                                _heightController.text =
+                                    cubit.state.level.height.toString();
+                              });
+                            }
+                          },
                         ),
                       ),
                     ],
