@@ -1,15 +1,9 @@
-import 'dart:io';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
-import 'package:flame/flame.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nes_ui/nes_ui.dart';
-import 'package:path/path.dart' as path;
-import 'package:spritexp/spritexp.dart';
 import 'package:uno/app/app.dart';
 import 'package:uno/editor/editor.dart';
 import 'package:uno_data/uno_data.dart';
@@ -148,7 +142,7 @@ class _EditorViewState extends State<EditorView> {
                           NesDialog.show(
                             context: context,
                             builder: (context) {
-                              return _MetadataDialogForm(
+                              return MetadataDialogForm(
                                 data: cubit.state.level.metadata,
                                 onChange: cubit.updateLevelMetadata,
                                 onReload: () {
@@ -228,7 +222,7 @@ class _EditorViewState extends State<EditorView> {
                                           },
                                           child: Builder(
                                             builder: (context) {
-                                              final child = _Cell(
+                                              final child = Cell(
                                                 metadata:
                                                     mappedDataObjects[(x, y)]
                                                         ?.metadata,
@@ -244,12 +238,12 @@ class _EditorViewState extends State<EditorView> {
                                               if (dataObject == null ||
                                                   (metadata?.isEmpty ??
                                                       false)) {
-                                                return _Cell(
+                                                return Cell(
                                                   metadata:
                                                       dataObject?.metadata,
                                                 );
                                               } else {
-                                                return _DataObjectCell(
+                                                return DataObjectCell(
                                                   object: dataObject,
                                                   child: child,
                                                 );
@@ -284,7 +278,6 @@ class _EditorViewState extends State<EditorView> {
                                     ),
                                   ),
                                 ),
-                                // TODO(erickzanardo): objects palette
                                 for (final item
                                     in appState.project.palette.items)
                                   NesTooltip(
@@ -296,7 +289,7 @@ class _EditorViewState extends State<EditorView> {
                                       child: SizedBox(
                                         width: 50,
                                         height: 50,
-                                        child: _Cell(metadata: item.metadata()),
+                                        child: Cell(metadata: item.metadata()),
                                       ),
                                     ),
                                   ),
@@ -313,7 +306,7 @@ class _EditorViewState extends State<EditorView> {
                               if (selectedItem == null) {
                                 return const Text('X');
                               } else {
-                                return _Cell(metadata: selectedItem.metadata());
+                                return Cell(metadata: selectedItem.metadata());
                               }
                             },
                           ),
@@ -325,256 +318,6 @@ class _EditorViewState extends State<EditorView> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-extension on Map<String, String> {
-  Map<String, String> editableMetadata() {
-    return {
-      for (final entry in entries)
-        if (entry.key != 'type' &&
-            entry.key != 'id' &&
-            entry.key != 'icon' &&
-            entry.key != 'iconSprite')
-          entry.key: entry.value,
-    };
-  }
-}
-
-class _DataObjectCell extends StatelessWidget {
-  const _DataObjectCell({
-    required this.object,
-    required this.child,
-  });
-
-  final _Cell child;
-  final UnoLevelObject object;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: child,
-        ),
-        Positioned(
-          right: 0,
-          top: 0,
-          child: NesPressable(
-            onPress: () {
-              NesDialog.show(
-                context: context,
-                builder: (_) {
-                  return _MetadataDialogForm(
-                    data: object.metadata.editableMetadata(),
-                    onChange: (
-                      key,
-                      value,
-                    ) {
-                      context.read<EditorCubit>().updateLevelDataObjectData(
-                            object.x,
-                            object.y,
-                            key,
-                            value,
-                          );
-                    },
-                  );
-                },
-              );
-            },
-            child: NesContainer(
-              padding: const EdgeInsets.all(2),
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: NesIcon(
-                  size: const Size(
-                    12,
-                    12,
-                  ),
-                  iconData: NesIcons.instance.sword,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Cell extends StatelessWidget {
-  const _Cell({this.metadata});
-
-  final Map<String, String>? metadata;
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = metadata?['icon'];
-    final iconSprite = metadata?['iconSprite'];
-
-    final hasIcon =
-        (icon?.isNotEmpty ?? false) && (iconSprite?.isNotEmpty ?? false);
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
-        color: metadata == null || hasIcon
-            ? Colors.transparent
-            : Colors.accents.first,
-        //color: object == null
-        //    ? Colors.transparent
-        //    : Colors.accents[object?.type.index ?? 0],
-      ),
-      child: metadata != null
-          ? hasIcon
-              ? _CellIcon(
-                  spritePath: icon!,
-                  spriteExpression: iconSprite!,
-                )
-              : Center(child: Text(metadata?['type']?.toInitials() ?? ''))
-          : null,
-    );
-  }
-}
-
-class _CellIcon extends StatelessWidget {
-  const _CellIcon({
-    required this.spritePath,
-    required this.spriteExpression,
-  });
-
-  final String spritePath;
-  final String spriteExpression;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<ui.Image>(
-      future: Flame.images.fetchOrGenerate(spritePath, () async {
-        final appState = context.read<AppCubit>().state;
-        if (appState is! AppLoaded) {
-          throw Exception('App is not loaded');
-        }
-
-        final projectPath = appState.project.projecPath;
-        final imagePath = path.join(projectPath, spritePath);
-        final bytes = await File(imagePath).readAsBytes();
-        return decodeImageFromList(bytes);
-      }),
-      builder: (context, snapshot) {
-        final data = snapshot.data;
-        if (snapshot.hasData && data != null) {
-          final sprites = SpritExp(expression: spriteExpression) / data;
-          return SpriteWidget(
-            sprite: sprites.first,
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
-
-extension on String {
-  String toInitials() {
-    late String firstLetter;
-    String? lastLetter;
-
-    if (length >= 1) {
-      firstLetter = this[0];
-    }
-
-    if (length >= 2) {
-      lastLetter = this[1];
-    }
-
-    return '${firstLetter.toUpperCase()}${lastLetter?.toUpperCase() ?? ''}';
-  }
-}
-
-class _MetadataDialogForm extends StatefulWidget {
-  const _MetadataDialogForm({
-    required this.data,
-    required this.onChange,
-    this.onReload,
-  });
-
-  final Map<String, String> data;
-
-  final void Function(String, String) onChange;
-
-  final VoidCallback? onReload;
-
-  @override
-  State<_MetadataDialogForm> createState() => _MetadataDialogFormState();
-}
-
-class _MetadataDialogFormState extends State<_MetadataDialogForm> {
-  late final Map<String, TextEditingController> _controllers;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controllers = {
-      for (final entry in widget.data.entries)
-        entry.key: TextEditingController(text: entry.value),
-    };
-  }
-
-  @override
-  void dispose() {
-    for (final controller in _controllers.values) {
-      controller.dispose();
-    }
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 400,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (widget.onReload != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: NesTooltip(
-                  message: 'Reload with template',
-                  child: NesIconButton(
-                    icon: NesIcons.instance.redo,
-                    onPress: widget.onReload,
-                  ),
-                ),
-              ),
-            for (final entry in widget.data.entries)
-              Column(
-                children: [
-                  SizedBox(
-                    width: 200,
-                    child: TextField(
-                      controller: _controllers[entry.key],
-                      decoration: InputDecoration(
-                        labelText: entry.key,
-                      ),
-                      onChanged: (value) {
-                        widget.onChange(entry.key, value);
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ),
-          ],
         ),
       ),
     );
