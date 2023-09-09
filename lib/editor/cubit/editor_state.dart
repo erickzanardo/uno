@@ -7,12 +7,41 @@ enum EditorStatus {
   emptyFileName,
 }
 
+abstract class SelectedTool extends Equatable {
+  const SelectedTool();
+}
+
+class PaletteBrushTool extends SelectedTool {
+  const PaletteBrushTool(this.item);
+
+  final UnoPaletteItem item;
+
+  @override
+  List<Object?> get props => [item];
+}
+
+class EraserTool extends SelectedTool {
+  const EraserTool();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CutTool extends SelectedTool {
+  const CutTool(this.object);
+
+  final UnoLevelObject? object;
+
+  @override
+  List<Object?> get props => [object];
+}
+
 class EditorState extends Equatable {
   const EditorState({
     required this.fileName,
     required this.level,
     this.status = EditorStatus.initial,
-    this.selectedItem,
+    this.selectedTool,
     this.lastSaved,
   });
 
@@ -20,17 +49,26 @@ class EditorState extends Equatable {
 
   final UnoLevel level;
 
-  final UnoPaletteItem? selectedItem;
+  final SelectedTool? selectedTool;
 
   final EditorStatus status;
 
   final DateTime? lastSaved;
 
+  EditorState clearSelectedTool() {
+    return EditorState(
+      fileName: fileName,
+      level: level,
+      status: status,
+      lastSaved: lastSaved,
+    );
+  }
+
   EditorState copyWith({
     String? fileName,
     UnoLevel? level,
     EditorStatus? status,
-    UnoPaletteItem? selectedItem,
+    SelectedTool? selectedTool,
     String? dialogKey,
     DateTime? lastSaved,
   }) {
@@ -38,17 +76,8 @@ class EditorState extends Equatable {
       fileName: fileName ?? this.fileName,
       level: level ?? this.level,
       status: status ?? this.status,
-      selectedItem: selectedItem ?? this.selectedItem,
+      selectedTool: selectedTool ?? this.selectedTool,
       lastSaved: lastSaved ?? this.lastSaved,
-    );
-  }
-
-  // Clear the selected object
-  EditorState clearSelectedObject() {
-    return EditorState(
-      fileName: fileName,
-      status: status,
-      level: level,
     );
   }
 
@@ -57,7 +86,7 @@ class EditorState extends Equatable {
         fileName,
         level,
         status,
-        selectedItem,
+        selectedTool,
         lastSaved,
       ];
 }

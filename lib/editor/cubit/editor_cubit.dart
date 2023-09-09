@@ -34,12 +34,28 @@ class EditorCubit extends Cubit<EditorState> {
 
   final UnoProject _project;
 
-  void clearSelectedObject() {
-    emit(state.clearSelectedObject());
+  void selectPaletteItem(UnoPaletteItem item) {
+    emit(
+      state.copyWith(
+        selectedTool: PaletteBrushTool(item),
+      ),
+    );
   }
 
-  void selectPaletteItem(UnoPaletteItem item) {
-    emit(state.copyWith(selectedItem: item));
+  void selectEraser() {
+    emit(
+      state.copyWith(
+        selectedTool: const EraserTool(),
+      ),
+    );
+  }
+
+  void selectCut(UnoLevelObject? object) {
+    emit(
+      state.copyWith(
+        selectedTool: CutTool(object),
+      ),
+    );
   }
 
   void updateFileName(String fileName) {
@@ -83,21 +99,38 @@ class EditorCubit extends Cubit<EditorState> {
   }
 
   void paintCell(int x, int y) {
+    final selectedTool = state.selectedTool;
+
     final mappedDataObjects = Map.fromEntries(
       state.level.objects.map(
         (object) => MapEntry((object.x, object.y), object),
       ),
     );
 
-    final selectedItem = state.selectedItem;
-    if (selectedItem == null) {
-      mappedDataObjects.remove((x, y));
-    } else {
+    if (selectedTool is PaletteBrushTool) {
+      final selectedItem = selectedTool.item;
       mappedDataObjects[(x, y)] = UnoLevelObject(
         x: x,
         y: y,
         metadata: selectedItem.metadata(),
       );
+    } else if (selectedTool is EraserTool) {
+      mappedDataObjects.remove((x, y));
+    } else if (selectedTool is CutTool) {
+      if (selectedTool.object == null) {
+        final cutObject = mappedDataObjects.remove((x, y));
+        emit(
+          state.copyWith(
+            selectedTool: CutTool(cutObject),
+          ),
+        );
+      } else {
+        emit(state.clearSelectedTool());
+        mappedDataObjects[(x, y)] = selectedTool.object!.copyWith(
+          x: x,
+          y: y,
+        );
+      }
     }
 
     emit(

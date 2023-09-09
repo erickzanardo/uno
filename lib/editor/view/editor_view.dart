@@ -167,6 +167,28 @@ class _EditorViewState extends State<EditorView> {
                   child: Row(
                     children: [
                       NesTooltip(
+                        message: 'Eraser',
+                        child: NesIconButton(
+                          onPress: () {
+                            context.read<EditorCubit>().selectEraser();
+                          },
+                          icon: NesIcons.instance.eraser,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      NesTooltip(
+                        message: 'Cut',
+                        child: NesIconButton(
+                          onPress: () {
+                            context.read<EditorCubit>().selectCut(null);
+                          },
+                          icon: NesIcons.instance.cut,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text('|'),
+                      const SizedBox(width: 8),
+                      NesTooltip(
                         message: 'Remove all objects',
                         arrowPlacement: NesTooltipArrowPlacement.left,
                         child: NesIconButton(
@@ -218,137 +240,182 @@ class _EditorViewState extends State<EditorView> {
               ),
               const SizedBox(height: 32),
               Expanded(
-                child: Row(
+                child: Stack(
                   children: [
-                    Expanded(
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          final mapData = context.select(
-                            (EditorCubit cubit) => cubit.state.level,
-                          );
+                    Row(
+                      children: [
+                        Expanded(
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final mapData = context.select(
+                                (EditorCubit cubit) => cubit.state.level,
+                              );
 
-                          const padding = 64;
-                          final width = constraints.maxWidth - padding;
-                          final height = constraints.maxHeight - padding;
+                              const padding = 64;
+                              final width = constraints.maxWidth - padding;
+                              final height = constraints.maxHeight - padding;
 
-                          final cellWidth = width / mapData.width;
-                          final cellHeight = height / mapData.height;
+                              final cellWidth = width / mapData.width;
+                              final cellHeight = height / mapData.height;
 
-                          final cellSize = math.min(cellWidth, cellHeight);
+                              final cellSize = math.min(cellWidth, cellHeight);
 
-                          final mappedDataObjects = {
-                            for (final object in mapData.objects)
-                              (object.x, object.y): object,
-                          };
+                              final mappedDataObjects = {
+                                for (final object in mapData.objects)
+                                  (object.x, object.y): object,
+                              };
 
-                          return Center(
-                            child: SizedBox(
-                              width: cellSize * mapData.width,
-                              height: cellSize * mapData.height,
-                              child: Stack(
-                                children: [
-                                  for (var y = 0; y < mapData.height; y++)
-                                    for (var x = 0; x < mapData.width; x++)
-                                      Positioned(
-                                        left: x * cellSize,
-                                        top: y * cellSize,
-                                        width: cellSize,
-                                        height: cellSize,
+                              return Center(
+                                child: SizedBox(
+                                  width: cellSize * mapData.width,
+                                  height: cellSize * mapData.height,
+                                  child: Stack(
+                                    children: [
+                                      for (var y = 0; y < mapData.height; y++)
+                                        for (var x = 0; x < mapData.width; x++)
+                                          Positioned(
+                                            left: x * cellSize,
+                                            top: y * cellSize,
+                                            width: cellSize,
+                                            height: cellSize,
+                                            child: NesPressable(
+                                              onPress: () {
+                                                cubit.paintCell(x, y);
+                                              },
+                                              child: Builder(
+                                                builder: (context) {
+                                                  final child = Cell(
+                                                    metadata: mappedDataObjects[
+                                                            (x, y)]
+                                                        ?.metadata,
+                                                  );
+
+                                                  final dataObject =
+                                                      mappedDataObjects[(x, y)];
+
+                                                  final metadata = dataObject
+                                                      ?.metadata
+                                                      .editableMetadata();
+
+                                                  if (dataObject == null ||
+                                                      (metadata?.isEmpty ??
+                                                          false)) {
+                                                    return Cell(
+                                                      metadata:
+                                                          dataObject?.metadata,
+                                                    );
+                                                  } else {
+                                                    return DataObjectCell(
+                                                      object: dataObject,
+                                                      child: child,
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        NesContainer(
+                          height: double.infinity,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Wrap(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    for (final item
+                                        in appState.project.palette.items)
+                                      NesTooltip(
+                                        message: item.type,
                                         child: NesPressable(
                                           onPress: () {
-                                            cubit.paintCell(x, y);
+                                            cubit.selectPaletteItem(item);
                                           },
-                                          child: Builder(
-                                            builder: (context) {
-                                              final child = Cell(
-                                                metadata:
-                                                    mappedDataObjects[(x, y)]
-                                                        ?.metadata,
-                                              );
-
-                                              final dataObject =
-                                                  mappedDataObjects[(x, y)];
-
-                                              final metadata = dataObject
-                                                  ?.metadata
-                                                  .editableMetadata();
-
-                                              if (dataObject == null ||
-                                                  (metadata?.isEmpty ??
-                                                      false)) {
-                                                return Cell(
-                                                  metadata:
-                                                      dataObject?.metadata,
-                                                );
-                                              } else {
-                                                return DataObjectCell(
-                                                  object: dataObject,
-                                                  child: child,
-                                                );
-                                              }
-                                            },
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: Cell(
+                                              metadata: item.metadata(),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    NesContainer(
-                      height: double.infinity,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Wrap(
-                              direction: Axis.vertical,
-                              children: [
-                                NesPressable(
-                                  onPress: cubit.clearSelectedObject,
-                                  child: const NesTooltip(
-                                    message: 'Clear',
-                                    child: SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                      child: Center(child: Text('X')),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                                for (final item
-                                    in appState.project.palette.items)
-                                  NesTooltip(
-                                    message: item.type,
-                                    child: NesPressable(
-                                      onPress: () {
-                                        cubit.selectPaletteItem(item);
-                                      },
-                                      child: SizedBox(
-                                        width: 50,
-                                        height: 50,
-                                        child: Cell(metadata: item.metadata()),
-                                      ),
-                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      left: 16,
+                      bottom: 16,
+                      child: NesContainer(
+                        padding: const EdgeInsets.all(8),
+                        width: 80,
+                        height: 80,
+                        child: BlocBuilder<EditorCubit, EditorState>(
+                          builder: (BuildContext context, EditorState state) {
+                            final selectedTool = state.selectedTool;
+                            if (selectedTool == null) {
+                              return const SizedBox.shrink();
+                            } else {
+                              if (selectedTool is PaletteBrushTool) {
+                                return Cell(
+                                  metadata: selectedTool.item.metadata(),
+                                );
+                              } else if (selectedTool is EraserTool) {
+                                return Center(
+                                  child: NesIcon(
+                                    size: const Size(32, 32),
+                                    iconData: NesIcons.instance.eraser,
                                   ),
-                              ],
-                            ),
-                          ),
-                          const Divider(),
-                          Builder(
-                            builder: (context) {
-                              final selectedItem = context.select(
-                                (EditorCubit cubit) => cubit.state.selectedItem,
-                              );
+                                );
+                              } else if (selectedTool is CutTool) {
+                                final object = selectedTool.object;
 
-                              if (selectedItem == null) {
-                                return const Text('X');
-                              } else {
-                                return Cell(metadata: selectedItem.metadata());
+                                if (object == null) {
+                                  return Center(
+                                    child: NesIcon(
+                                      size: const Size(32, 32),
+                                      iconData: NesIcons.instance.cut,
+                                    ),
+                                  );
+                                } else {
+                                  return Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 8,
+                                        left: 8,
+                                        right: 8,
+                                        bottom: 8,
+                                        child: Cell(
+                                          metadata: object.metadata,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: NesIcon(
+                                          iconData: NesIcons.instance.cut,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
                               }
-                            },
-                          ),
-                        ],
+
+                              return const SizedBox.shrink();
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ],
