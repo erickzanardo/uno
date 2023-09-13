@@ -58,6 +58,14 @@ class EditorCubit extends Cubit<EditorState> {
     );
   }
 
+  void selectCopy(UnoLevelObject? object) {
+    emit(
+      state.copyWith(
+        selectedTool: CopyTool(object),
+      ),
+    );
+  }
+
   void updateFileName(String fileName) {
     emit(state.copyWith(fileName: fileName));
   }
@@ -126,6 +134,20 @@ class EditorCubit extends Cubit<EditorState> {
         );
       } else {
         emit(state.clearSelectedTool());
+        mappedDataObjects[(x, y)] = selectedTool.object!.copyWith(
+          x: x,
+          y: y,
+        );
+      }
+    } else if (selectedTool is CopyTool) {
+      if (selectedTool.object == null) {
+        final cutObject = mappedDataObjects[(x, y)];
+        emit(
+          state.copyWith(
+            selectedTool: CopyTool(cutObject),
+          ),
+        );
+      } else {
         mappedDataObjects[(x, y)] = selectedTool.object!.copyWith(
           x: x,
           y: y,

@@ -36,6 +36,15 @@ class CutTool extends SelectedTool {
   List<Object?> get props => [object];
 }
 
+class CopyTool extends SelectedTool {
+  const CopyTool(this.object);
+
+  final UnoLevelObject? object;
+
+  @override
+  List<Object?> get props => [object];
+}
+
 class EditorState extends Equatable {
   const EditorState({
     required this.fileName,

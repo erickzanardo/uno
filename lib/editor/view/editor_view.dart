@@ -186,6 +186,16 @@ class _EditorViewState extends State<EditorView> {
                         ),
                       ),
                       const SizedBox(width: 8),
+                      NesTooltip(
+                        message: 'Copy',
+                        child: NesIconButton(
+                          onPress: () {
+                            context.read<EditorCubit>().selectCopy(null);
+                          },
+                          icon: NesIcons.instance.copy,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       const Text('|'),
                       const SizedBox(width: 8),
                       NesTooltip(
@@ -405,6 +415,38 @@ class _EditorViewState extends State<EditorView> {
                                         bottom: 0,
                                         child: NesIcon(
                                           iconData: NesIcons.instance.cut,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              } else if (selectedTool is CopyTool) {
+                                final object = selectedTool.object;
+
+                                if (object == null) {
+                                  return Center(
+                                    child: NesIcon(
+                                      size: const Size(32, 32),
+                                      iconData: NesIcons.instance.copy,
+                                    ),
+                                  );
+                                } else {
+                                  return Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 8,
+                                        left: 8,
+                                        right: 8,
+                                        bottom: 8,
+                                        child: Cell(
+                                          metadata: object.metadata,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: NesIcon(
+                                          iconData: NesIcons.instance.paste,
                                         ),
                                       ),
                                     ],
