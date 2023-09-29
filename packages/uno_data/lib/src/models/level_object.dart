@@ -20,3 +20,16 @@ class UnoLevelObject with _$UnoLevelObject {
   factory UnoLevelObject.fromJson(Map<String, dynamic> json) =>
       _$UnoLevelObjectFromJson(json);
 }
+
+/// Utility extension methods for [UnoLevelObject].
+extension UnoLevelObjectX on UnoLevelObject {
+  /// Gets the value of a metadata key.
+  T? metadataValue<T>(String key) {
+    final value = metadata[key];
+    if (value == null) return null;
+    if (T == int) return int.parse(value) as T;
+    if (T == double) return double.parse(value) as T;
+    if (T == bool) return bool.parse(value) as T;
+    return value as T;
+  }
+}
