@@ -38,7 +38,7 @@ class DataObjectCell extends StatelessWidget {
           top: 0,
           child: NesPressable(
             onPress: () {
-              NesDialog.show(
+              NesDialog.show<void>(
                 context: context,
                 builder: (_) {
                   return MetadataDialogForm(
@@ -58,16 +58,16 @@ class DataObjectCell extends StatelessWidget {
                 },
               );
             },
-            child: NesContainer(
-              padding: const EdgeInsets.all(2),
+            child: NesTooltip(
+              message: 'Edit metadata',
               child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: NesIcon(
                   size: const Size(
-                    12,
-                    12,
+                    14,
+                    14,
                   ),
-                  iconData: NesIcons.instance.sword,
+                  iconData: NesIcons.edit,
                 ),
               ),
             ),
