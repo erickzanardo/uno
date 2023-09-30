@@ -13,6 +13,7 @@ class UnoLevelObject with _$UnoLevelObject {
   const factory UnoLevelObject({
     required int x,
     required int y,
+    required int z,
     required Map<String, String> metadata,
   }) = _UnoLevelObject;
 

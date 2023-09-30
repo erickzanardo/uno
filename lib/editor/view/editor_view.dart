@@ -76,14 +76,14 @@ class _EditorViewState extends State<EditorView> {
                     Row(
                       children: [
                         NesIconButton(
-                          icon: NesIcons.instance.saveFile,
+                          icon: NesIcons.saveFile,
                           onPress: () async {
                             await cubit.save();
                           },
                         ),
                         const SizedBox(width: 16),
                         NesIconButton(
-                          icon: NesIcons.instance.close,
+                          icon: NesIcons.close,
                           onPress: () {
                             Navigator.of(context).pop();
                           },
@@ -172,7 +172,7 @@ class _EditorViewState extends State<EditorView> {
                           onPress: () {
                             context.read<EditorCubit>().selectEraser();
                           },
-                          icon: NesIcons.instance.eraser,
+                          icon: NesIcons.eraser,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -182,7 +182,7 @@ class _EditorViewState extends State<EditorView> {
                           onPress: () {
                             context.read<EditorCubit>().selectCut(null);
                           },
-                          icon: NesIcons.instance.cut,
+                          icon: NesIcons.cut,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -192,7 +192,7 @@ class _EditorViewState extends State<EditorView> {
                           onPress: () {
                             context.read<EditorCubit>().selectCopy(null);
                           },
-                          icon: NesIcons.instance.copy,
+                          icon: NesIcons.copy,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -202,7 +202,7 @@ class _EditorViewState extends State<EditorView> {
                         message: 'Remove all objects',
                         arrowPlacement: NesTooltipArrowPlacement.left,
                         child: NesIconButton(
-                          icon: NesIcons.instance.delete,
+                          icon: NesIcons.delete,
                           onPress: cubit.clearObjects,
                         ),
                       ),
@@ -211,7 +211,7 @@ class _EditorViewState extends State<EditorView> {
                         message: 'Expand',
                         arrowPlacement: NesTooltipArrowPlacement.left,
                         child: NesIconButton(
-                          icon: NesIcons.instance.expand,
+                          icon: NesIcons.expand,
                           onPress: () async {
                             final cubit = context.read<EditorCubit>();
                             final value = await NesDialog.show<ExpansionResult>(
@@ -270,97 +270,85 @@ class _EditorViewState extends State<EditorView> {
 
                               final cellSize = math.min(cellWidth, cellHeight);
 
-                              final mappedDataObjects = {
-                                for (final object in mapData.objects)
-                                  (object.x, object.y): object,
-                              };
+                              final mappedDataObjects =
+                                  <(int, int), List<UnoLevelObject>>{};
+
+                              for (final object in mapData.objects) {
+                                final key = (object.x, object.y);
+                                (mappedDataObjects[key] ??= [])
+                                  ..add(object)
+                                  ..sort((a, b) => a.z.compareTo(b.z));
+                              }
 
                               return Center(
-                                child: SizedBox(
-                                  width: cellSize * mapData.width,
-                                  height: cellSize * mapData.height,
-                                  child: Stack(
-                                    children: [
-                                      for (var y = 0; y < mapData.height; y++)
-                                        for (var x = 0; x < mapData.width; x++)
-                                          Positioned(
-                                            left: x * cellSize,
-                                            top: y * cellSize,
-                                            width: cellSize,
-                                            height: cellSize,
-                                            child: NesPressable(
-                                              onPress: () {
-                                                cubit.paintCell(x, y);
-                                              },
-                                              child: Builder(
-                                                builder: (context) {
-                                                  final child = Cell(
-                                                    metadata: mappedDataObjects[
-                                                            (x, y)]
-                                                        ?.metadata,
-                                                  );
-
-                                                  final dataObject =
-                                                      mappedDataObjects[(x, y)];
-
-                                                  final metadata = dataObject
-                                                      ?.metadata
-                                                      .editableMetadata();
-
-                                                  if (dataObject == null ||
-                                                      (metadata?.isEmpty ??
-                                                          false)) {
-                                                    return Cell(
-                                                      metadata:
-                                                          dataObject?.metadata,
-                                                    );
-                                                  } else {
-                                                    return DataObjectCell(
-                                                      object: dataObject,
-                                                      child: child,
-                                                    );
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                    ],
-                                  ),
+                                child: _Board(
+                                  cellSize: cellSize,
+                                  mapData: mapData,
+                                  cubit: cubit,
+                                  mappedDataObjects: mappedDataObjects,
                                 ),
                               );
                             },
                           ),
                         ),
-                        NesContainer(
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Wrap(
-                                  direction: Axis.vertical,
+                        Column(
+                          children: [
+                            Expanded(
+                              child: NesContainer(
+                                height: double.infinity,
+                                child: Column(
                                   children: [
-                                    for (final item
-                                        in appState.project.palette.items)
-                                      NesTooltip(
-                                        message: item.type,
-                                        child: NesPressable(
-                                          onPress: () {
-                                            cubit.selectPaletteItem(item);
-                                          },
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: Cell(
-                                              metadata: item.metadata(),
+                                    Expanded(
+                                      child: Wrap(
+                                        direction: Axis.vertical,
+                                        children: [
+                                          for (final item
+                                              in appState.project.palette.items)
+                                            NesTooltip(
+                                              message: item.type,
+                                              child: NesPressable(
+                                                onPress: () {
+                                                  cubit.selectPaletteItem(item);
+                                                },
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child: Cell(
+                                                    metadata: item.metadata(),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
+                                        ],
                                       ),
+                                    ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 8),
+                            BlocBuilder<EditorCubit, EditorState>(
+                              builder: (context, state) {
+                                return Row(
+                                  children: [
+                                    NesIconButton(
+                                      icon: NesIcons.remove,
+                                      onPress: cubit.decreaseLayer,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Layer: ${state.currentLayer + 1}',
+                                    ),
+                                    const SizedBox(width: 4),
+                                    NesIconButton(
+                                      icon: NesIcons.add,
+                                      onPress: cubit.increaseLayer,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -385,7 +373,7 @@ class _EditorViewState extends State<EditorView> {
                                 return Center(
                                   child: NesIcon(
                                     size: const Size(32, 32),
-                                    iconData: NesIcons.instance.eraser,
+                                    iconData: NesIcons.eraser,
                                   ),
                                 );
                               } else if (selectedTool is CutTool) {
@@ -395,7 +383,7 @@ class _EditorViewState extends State<EditorView> {
                                   return Center(
                                     child: NesIcon(
                                       size: const Size(32, 32),
-                                      iconData: NesIcons.instance.cut,
+                                      iconData: NesIcons.cut,
                                     ),
                                   );
                                 } else {
@@ -414,7 +402,7 @@ class _EditorViewState extends State<EditorView> {
                                         right: 0,
                                         bottom: 0,
                                         child: NesIcon(
-                                          iconData: NesIcons.instance.cut,
+                                          iconData: NesIcons.cut,
                                         ),
                                       ),
                                     ],
@@ -427,7 +415,7 @@ class _EditorViewState extends State<EditorView> {
                                   return Center(
                                     child: NesIcon(
                                       size: const Size(32, 32),
-                                      iconData: NesIcons.instance.copy,
+                                      iconData: NesIcons.copy,
                                     ),
                                   );
                                 } else {
@@ -446,7 +434,7 @@ class _EditorViewState extends State<EditorView> {
                                         right: 0,
                                         bottom: 0,
                                         child: NesIcon(
-                                          iconData: NesIcons.instance.paste,
+                                          iconData: NesIcons.paste,
                                         ),
                                       ),
                                     ],
@@ -466,6 +454,86 @@ class _EditorViewState extends State<EditorView> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Board extends StatelessWidget {
+  const _Board({
+    required this.cellSize,
+    required this.mapData,
+    required this.cubit,
+    required this.mappedDataObjects,
+  });
+
+  final double cellSize;
+  final UnoLevel mapData;
+  final EditorCubit cubit;
+  final Map<(int, int), List<UnoLevelObject>> mappedDataObjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: cellSize * mapData.width,
+      height: cellSize * mapData.height,
+      child: Stack(
+        children: [
+          for (var y = 0; y < mapData.height; y++)
+            for (var x = 0; x < mapData.width; x++)
+              Positioned(
+                left: x * cellSize,
+                top: y * cellSize,
+                width: cellSize,
+                height: cellSize,
+                child: NesPressable(
+                  onPress: () {
+                    cubit.paintCell(x, y);
+                  },
+                  child: Builder(
+                    builder: (context) {
+                      final key = (x, y);
+                      final objects = mappedDataObjects[key];
+
+                      if (objects == null || objects.isEmpty) {
+                        return const Cell();
+                      } else {
+                        return Stack(
+                          children: objects
+                              .map(
+                                (obj) {
+                                  final child = Cell(
+                                    metadata: obj.metadata,
+                                  );
+
+                                  final metadata =
+                                      obj.metadata.editableMetadata();
+
+                                  if (metadata.isEmpty) {
+                                    return Cell(
+                                      metadata: obj.metadata,
+                                    );
+                                  } else {
+                                    return DataObjectCell(
+                                      object: obj,
+                                      child: child,
+                                    );
+                                  }
+                                },
+                              )
+                              .map(
+                                (child) => Positioned.fill(
+                                  child: child,
+                                ),
+                              )
+                              .toList(),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+        ],
       ),
     );
   }

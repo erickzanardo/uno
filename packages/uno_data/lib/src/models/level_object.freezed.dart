@@ -22,6 +22,7 @@ UnoLevelObject _$UnoLevelObjectFromJson(Map<String, dynamic> json) {
 mixin _$UnoLevelObject {
   int get x => throw _privateConstructorUsedError;
   int get y => throw _privateConstructorUsedError;
+  int get z => throw _privateConstructorUsedError;
   Map<String, String> get metadata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $UnoLevelObjectCopyWith<$Res> {
           UnoLevelObject value, $Res Function(UnoLevelObject) then) =
       _$UnoLevelObjectCopyWithImpl<$Res, UnoLevelObject>;
   @useResult
-  $Res call({int x, int y, Map<String, String> metadata});
+  $Res call({int x, int y, int z, Map<String, String> metadata});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$UnoLevelObjectCopyWithImpl<$Res, $Val extends UnoLevelObject>
   $Res call({
     Object? x = null,
     Object? y = null,
+    Object? z = null,
     Object? metadata = null,
   }) {
     return _then(_value.copyWith(
@@ -65,6 +67,10 @@ class _$UnoLevelObjectCopyWithImpl<$Res, $Val extends UnoLevelObject>
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
               as int,
+      z: null == z
+          ? _value.z
+          : z // ignore: cast_nullable_to_non_nullable
+              as int,
       metadata: null == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -74,22 +80,22 @@ class _$UnoLevelObjectCopyWithImpl<$Res, $Val extends UnoLevelObject>
 }
 
 /// @nodoc
-abstract class _$$_UnoLevelObjectCopyWith<$Res>
+abstract class _$$UnoLevelObjectImplCopyWith<$Res>
     implements $UnoLevelObjectCopyWith<$Res> {
-  factory _$$_UnoLevelObjectCopyWith(
-          _$_UnoLevelObject value, $Res Function(_$_UnoLevelObject) then) =
-      __$$_UnoLevelObjectCopyWithImpl<$Res>;
+  factory _$$UnoLevelObjectImplCopyWith(_$UnoLevelObjectImpl value,
+          $Res Function(_$UnoLevelObjectImpl) then) =
+      __$$UnoLevelObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int x, int y, Map<String, String> metadata});
+  $Res call({int x, int y, int z, Map<String, String> metadata});
 }
 
 /// @nodoc
-class __$$_UnoLevelObjectCopyWithImpl<$Res>
-    extends _$UnoLevelObjectCopyWithImpl<$Res, _$_UnoLevelObject>
-    implements _$$_UnoLevelObjectCopyWith<$Res> {
-  __$$_UnoLevelObjectCopyWithImpl(
-      _$_UnoLevelObject _value, $Res Function(_$_UnoLevelObject) _then)
+class __$$UnoLevelObjectImplCopyWithImpl<$Res>
+    extends _$UnoLevelObjectCopyWithImpl<$Res, _$UnoLevelObjectImpl>
+    implements _$$UnoLevelObjectImplCopyWith<$Res> {
+  __$$UnoLevelObjectImplCopyWithImpl(
+      _$UnoLevelObjectImpl _value, $Res Function(_$UnoLevelObjectImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -97,9 +103,10 @@ class __$$_UnoLevelObjectCopyWithImpl<$Res>
   $Res call({
     Object? x = null,
     Object? y = null,
+    Object? z = null,
     Object? metadata = null,
   }) {
-    return _then(_$_UnoLevelObject(
+    return _then(_$UnoLevelObjectImpl(
       x: null == x
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
@@ -107,6 +114,10 @@ class __$$_UnoLevelObjectCopyWithImpl<$Res>
       y: null == y
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
+              as int,
+      z: null == z
+          ? _value.z
+          : z // ignore: cast_nullable_to_non_nullable
               as int,
       metadata: null == metadata
           ? _value._metadata
@@ -118,20 +129,23 @@ class __$$_UnoLevelObjectCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnoLevelObject implements _UnoLevelObject {
-  const _$_UnoLevelObject(
+class _$UnoLevelObjectImpl implements _UnoLevelObject {
+  const _$UnoLevelObjectImpl(
       {required this.x,
       required this.y,
+      required this.z,
       required final Map<String, String> metadata})
       : _metadata = metadata;
 
-  factory _$_UnoLevelObject.fromJson(Map<String, dynamic> json) =>
-      _$$_UnoLevelObjectFromJson(json);
+  factory _$UnoLevelObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnoLevelObjectImplFromJson(json);
 
   @override
   final int x;
   @override
   final int y;
+  @override
+  final int z;
   final Map<String, String> _metadata;
   @override
   Map<String, String> get metadata {
@@ -142,33 +156,35 @@ class _$_UnoLevelObject implements _UnoLevelObject {
 
   @override
   String toString() {
-    return 'UnoLevelObject(x: $x, y: $y, metadata: $metadata)';
+    return 'UnoLevelObject(x: $x, y: $y, z: $z, metadata: $metadata)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnoLevelObject &&
+            other is _$UnoLevelObjectImpl &&
             (identical(other.x, x) || other.x == x) &&
             (identical(other.y, y) || other.y == y) &&
+            (identical(other.z, z) || other.z == z) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, x, y, const DeepCollectionEquality().hash(_metadata));
+      runtimeType, x, y, z, const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnoLevelObjectCopyWith<_$_UnoLevelObject> get copyWith =>
-      __$$_UnoLevelObjectCopyWithImpl<_$_UnoLevelObject>(this, _$identity);
+  _$$UnoLevelObjectImplCopyWith<_$UnoLevelObjectImpl> get copyWith =>
+      __$$UnoLevelObjectImplCopyWithImpl<_$UnoLevelObjectImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnoLevelObjectToJson(
+    return _$$UnoLevelObjectImplToJson(
       this,
     );
   }
@@ -178,19 +194,22 @@ abstract class _UnoLevelObject implements UnoLevelObject {
   const factory _UnoLevelObject(
       {required final int x,
       required final int y,
-      required final Map<String, String> metadata}) = _$_UnoLevelObject;
+      required final int z,
+      required final Map<String, String> metadata}) = _$UnoLevelObjectImpl;
 
   factory _UnoLevelObject.fromJson(Map<String, dynamic> json) =
-      _$_UnoLevelObject.fromJson;
+      _$UnoLevelObjectImpl.fromJson;
 
   @override
   int get x;
   @override
   int get y;
   @override
+  int get z;
+  @override
   Map<String, String> get metadata;
   @override
   @JsonKey(ignore: true)
-  _$$_UnoLevelObjectCopyWith<_$_UnoLevelObject> get copyWith =>
+  _$$UnoLevelObjectImplCopyWith<_$UnoLevelObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -70,6 +70,26 @@ class EditorCubit extends Cubit<EditorState> {
     emit(state.copyWith(fileName: fileName));
   }
 
+  void increaseLayer() {
+    emit(
+      state.copyWith(
+        currentLayer: state.currentLayer + 1,
+      ),
+    );
+  }
+
+  void decreaseLayer() {
+    if (state.currentLayer == 0) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        currentLayer: state.currentLayer - 1,
+      ),
+    );
+  }
+
   UnoLevel _removeOutOfBoundsObjects(UnoLevel level) {
     final objects = level.objects.where(
       (object) {
@@ -111,22 +131,23 @@ class EditorCubit extends Cubit<EditorState> {
 
     final mappedDataObjects = Map.fromEntries(
       state.level.objects.map(
-        (object) => MapEntry((object.x, object.y), object),
+        (object) => MapEntry((object.x, object.y, object.z), object),
       ),
     );
 
     if (selectedTool is PaletteBrushTool) {
       final selectedItem = selectedTool.item;
-      mappedDataObjects[(x, y)] = UnoLevelObject(
+      mappedDataObjects[(x, y, state.currentLayer)] = UnoLevelObject(
         x: x,
         y: y,
+        z: state.currentLayer,
         metadata: selectedItem.metadata(),
       );
     } else if (selectedTool is EraserTool) {
-      mappedDataObjects.remove((x, y));
+      mappedDataObjects.remove((x, y, state.currentLayer));
     } else if (selectedTool is CutTool) {
       if (selectedTool.object == null) {
-        final cutObject = mappedDataObjects.remove((x, y));
+        final cutObject = mappedDataObjects.remove((x, y, state.currentLayer));
         emit(
           state.copyWith(
             selectedTool: CutTool(cutObject),
@@ -134,21 +155,23 @@ class EditorCubit extends Cubit<EditorState> {
         );
       } else {
         emit(state.clearSelectedTool());
-        mappedDataObjects[(x, y)] = selectedTool.object!.copyWith(
+        mappedDataObjects[(x, y, state.currentLayer)] =
+            selectedTool.object!.copyWith(
           x: x,
           y: y,
         );
       }
     } else if (selectedTool is CopyTool) {
       if (selectedTool.object == null) {
-        final cutObject = mappedDataObjects[(x, y)];
+        final cutObject = mappedDataObjects[(x, y, state.currentLayer)];
         emit(
           state.copyWith(
             selectedTool: CopyTool(cutObject),
           ),
         );
       } else {
-        mappedDataObjects[(x, y)] = selectedTool.object!.copyWith(
+        mappedDataObjects[(x, y, state.currentLayer)] =
+            selectedTool.object!.copyWith(
           x: x,
           y: y,
         );

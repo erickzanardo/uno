@@ -83,10 +83,11 @@ class _$UnoLevelCopyWithImpl<$Res, $Val extends UnoLevel>
 }
 
 /// @nodoc
-abstract class _$$_UnoLevelCopyWith<$Res> implements $UnoLevelCopyWith<$Res> {
-  factory _$$_UnoLevelCopyWith(
-          _$_UnoLevel value, $Res Function(_$_UnoLevel) then) =
-      __$$_UnoLevelCopyWithImpl<$Res>;
+abstract class _$$UnoLevelImplCopyWith<$Res>
+    implements $UnoLevelCopyWith<$Res> {
+  factory _$$UnoLevelImplCopyWith(
+          _$UnoLevelImpl value, $Res Function(_$UnoLevelImpl) then) =
+      __$$UnoLevelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -97,11 +98,11 @@ abstract class _$$_UnoLevelCopyWith<$Res> implements $UnoLevelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UnoLevelCopyWithImpl<$Res>
-    extends _$UnoLevelCopyWithImpl<$Res, _$_UnoLevel>
-    implements _$$_UnoLevelCopyWith<$Res> {
-  __$$_UnoLevelCopyWithImpl(
-      _$_UnoLevel _value, $Res Function(_$_UnoLevel) _then)
+class __$$UnoLevelImplCopyWithImpl<$Res>
+    extends _$UnoLevelCopyWithImpl<$Res, _$UnoLevelImpl>
+    implements _$$UnoLevelImplCopyWith<$Res> {
+  __$$UnoLevelImplCopyWithImpl(
+      _$UnoLevelImpl _value, $Res Function(_$UnoLevelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -112,7 +113,7 @@ class __$$_UnoLevelCopyWithImpl<$Res>
     Object? metadata = null,
     Object? objects = null,
   }) {
-    return _then(_$_UnoLevel(
+    return _then(_$UnoLevelImpl(
       width: null == width
           ? _value.width
           : width // ignore: cast_nullable_to_non_nullable
@@ -135,8 +136,8 @@ class __$$_UnoLevelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnoLevel implements _UnoLevel {
-  const _$_UnoLevel(
+class _$UnoLevelImpl implements _UnoLevel {
+  const _$UnoLevelImpl(
       {required this.width,
       required this.height,
       required final Map<String, String> metadata,
@@ -144,8 +145,8 @@ class _$_UnoLevel implements _UnoLevel {
       : _metadata = metadata,
         _objects = objects;
 
-  factory _$_UnoLevel.fromJson(Map<String, dynamic> json) =>
-      _$$_UnoLevelFromJson(json);
+  factory _$UnoLevelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnoLevelImplFromJson(json);
 
   @override
   final int width;
@@ -176,7 +177,7 @@ class _$_UnoLevel implements _UnoLevel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnoLevel &&
+            other is _$UnoLevelImpl &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
@@ -195,12 +196,12 @@ class _$_UnoLevel implements _UnoLevel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnoLevelCopyWith<_$_UnoLevel> get copyWith =>
-      __$$_UnoLevelCopyWithImpl<_$_UnoLevel>(this, _$identity);
+  _$$UnoLevelImplCopyWith<_$UnoLevelImpl> get copyWith =>
+      __$$UnoLevelImplCopyWithImpl<_$UnoLevelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnoLevelToJson(
+    return _$$UnoLevelImplToJson(
       this,
     );
   }
@@ -211,9 +212,10 @@ abstract class _UnoLevel implements UnoLevel {
       {required final int width,
       required final int height,
       required final Map<String, String> metadata,
-      required final List<UnoLevelObject> objects}) = _$_UnoLevel;
+      required final List<UnoLevelObject> objects}) = _$UnoLevelImpl;
 
-  factory _UnoLevel.fromJson(Map<String, dynamic> json) = _$_UnoLevel.fromJson;
+  factory _UnoLevel.fromJson(Map<String, dynamic> json) =
+      _$UnoLevelImpl.fromJson;
 
   @override
   int get width;
@@ -225,6 +227,6 @@ abstract class _UnoLevel implements UnoLevel {
   List<UnoLevelObject> get objects;
   @override
   @JsonKey(ignore: true)
-  _$$_UnoLevelCopyWith<_$_UnoLevel> get copyWith =>
+  _$$UnoLevelImplCopyWith<_$UnoLevelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

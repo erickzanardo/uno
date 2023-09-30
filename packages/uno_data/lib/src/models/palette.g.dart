@@ -6,8 +6,8 @@ part of 'palette.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UnoPalette _$$_UnoPaletteFromJson(Map<String, dynamic> json) =>
-    _$_UnoPalette(
+_$UnoPaletteImpl _$$UnoPaletteImplFromJson(Map<String, dynamic> json) =>
+    _$UnoPaletteImpl(
       items: (json['items'] as List<dynamic>)
           .map((e) => UnoPaletteItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -16,14 +16,14 @@ _$_UnoPalette _$$_UnoPaletteFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$_UnoPaletteToJson(_$_UnoPalette instance) =>
+Map<String, dynamic> _$$UnoPaletteImplToJson(_$UnoPaletteImpl instance) =>
     <String, dynamic>{
       'items': instance.items,
       'levelMetadata': instance.levelMetadata,
     };
 
-_$_UnoPaletteItem _$$_UnoPaletteItemFromJson(Map<String, dynamic> json) =>
-    _$_UnoPaletteItem(
+_$UnoPaletteItemImpl _$$UnoPaletteItemImplFromJson(Map<String, dynamic> json) =>
+    _$UnoPaletteItemImpl(
       id: json['id'] as String,
       type: json['type'] as String,
       data: Map<String, String>.from(json['data'] as Map),
@@ -31,7 +31,8 @@ _$_UnoPaletteItem _$$_UnoPaletteItemFromJson(Map<String, dynamic> json) =>
       iconSprite: json['iconSprite'] as String?,
     );
 
-Map<String, dynamic> _$$_UnoPaletteItemToJson(_$_UnoPaletteItem instance) =>
+Map<String, dynamic> _$$UnoPaletteItemImplToJson(
+        _$UnoPaletteItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

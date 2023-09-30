@@ -6,7 +6,8 @@ part of 'level.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UnoLevel _$$_UnoLevelFromJson(Map<String, dynamic> json) => _$_UnoLevel(
+_$UnoLevelImpl _$$UnoLevelImplFromJson(Map<String, dynamic> json) =>
+    _$UnoLevelImpl(
       width: json['width'] as int,
       height: json['height'] as int,
       metadata: Map<String, String>.from(json['metadata'] as Map),
@@ -15,7 +16,7 @@ _$_UnoLevel _$$_UnoLevelFromJson(Map<String, dynamic> json) => _$_UnoLevel(
           .toList(),
     );
 
-Map<String, dynamic> _$$_UnoLevelToJson(_$_UnoLevel instance) =>
+Map<String, dynamic> _$$UnoLevelImplToJson(_$UnoLevelImpl instance) =>
     <String, dynamic>{
       'width': instance.width,
       'height': instance.height,

@@ -49,6 +49,8 @@ class EditorState extends Equatable {
   const EditorState({
     required this.fileName,
     required this.level,
+    this.currentLayer = 0,
+    this.totalLayers = 1,
     this.status = EditorStatus.initial,
     this.selectedTool,
     this.lastSaved,
@@ -63,6 +65,10 @@ class EditorState extends Equatable {
   final EditorStatus status;
 
   final DateTime? lastSaved;
+
+  final int currentLayer;
+
+  final int totalLayers;
 
   EditorState clearSelectedTool() {
     return EditorState(
@@ -80,6 +86,8 @@ class EditorState extends Equatable {
     SelectedTool? selectedTool,
     String? dialogKey,
     DateTime? lastSaved,
+    int? currentLayer,
+    int? totalLayers,
   }) {
     return EditorState(
       fileName: fileName ?? this.fileName,
@@ -87,6 +95,8 @@ class EditorState extends Equatable {
       status: status ?? this.status,
       selectedTool: selectedTool ?? this.selectedTool,
       lastSaved: lastSaved ?? this.lastSaved,
+      currentLayer: currentLayer ?? this.currentLayer,
+      totalLayers: totalLayers ?? this.totalLayers,
     );
   }
 
@@ -97,5 +107,7 @@ class EditorState extends Equatable {
         status,
         selectedTool,
         lastSaved,
+        currentLayer,
+        totalLayers,
       ];
 }

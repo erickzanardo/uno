@@ -13,7 +13,9 @@
       "type": "snake",
       "icon": "../images/sprites.png",
       "iconSprite": "{32, 0, 16, 16}",
-      "data": {}
+      "data": {
+        "path": ""
+      }
     },
     {
       "id": "2",

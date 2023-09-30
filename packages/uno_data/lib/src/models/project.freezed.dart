@@ -84,11 +84,11 @@ class _$UnoProjectCopyWithImpl<$Res, $Val extends UnoProject>
 }
 
 /// @nodoc
-abstract class _$$_UnoProjectCopyWith<$Res>
+abstract class _$$UnoProjectImplCopyWith<$Res>
     implements $UnoProjectCopyWith<$Res> {
-  factory _$$_UnoProjectCopyWith(
-          _$_UnoProject value, $Res Function(_$_UnoProject) then) =
-      __$$_UnoProjectCopyWithImpl<$Res>;
+  factory _$$UnoProjectImplCopyWith(
+          _$UnoProjectImpl value, $Res Function(_$UnoProjectImpl) then) =
+      __$$UnoProjectImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String projecPath, List<String> levels, UnoPalette palette});
@@ -98,11 +98,11 @@ abstract class _$$_UnoProjectCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UnoProjectCopyWithImpl<$Res>
-    extends _$UnoProjectCopyWithImpl<$Res, _$_UnoProject>
-    implements _$$_UnoProjectCopyWith<$Res> {
-  __$$_UnoProjectCopyWithImpl(
-      _$_UnoProject _value, $Res Function(_$_UnoProject) _then)
+class __$$UnoProjectImplCopyWithImpl<$Res>
+    extends _$UnoProjectCopyWithImpl<$Res, _$UnoProjectImpl>
+    implements _$$UnoProjectImplCopyWith<$Res> {
+  __$$UnoProjectImplCopyWithImpl(
+      _$UnoProjectImpl _value, $Res Function(_$UnoProjectImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -112,7 +112,7 @@ class __$$_UnoProjectCopyWithImpl<$Res>
     Object? levels = null,
     Object? palette = null,
   }) {
-    return _then(_$_UnoProject(
+    return _then(_$UnoProjectImpl(
       projecPath: null == projecPath
           ? _value.projecPath
           : projecPath // ignore: cast_nullable_to_non_nullable
@@ -131,15 +131,15 @@ class __$$_UnoProjectCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnoProject implements _UnoProject {
-  const _$_UnoProject(
+class _$UnoProjectImpl implements _UnoProject {
+  const _$UnoProjectImpl(
       {required this.projecPath,
       required final List<String> levels,
       required this.palette})
       : _levels = levels;
 
-  factory _$_UnoProject.fromJson(Map<String, dynamic> json) =>
-      _$$_UnoProjectFromJson(json);
+  factory _$UnoProjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnoProjectImplFromJson(json);
 
   @override
   final String projecPath;
@@ -163,7 +163,7 @@ class _$_UnoProject implements _UnoProject {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnoProject &&
+            other is _$UnoProjectImpl &&
             (identical(other.projecPath, projecPath) ||
                 other.projecPath == projecPath) &&
             const DeepCollectionEquality().equals(other._levels, _levels) &&
@@ -178,12 +178,12 @@ class _$_UnoProject implements _UnoProject {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnoProjectCopyWith<_$_UnoProject> get copyWith =>
-      __$$_UnoProjectCopyWithImpl<_$_UnoProject>(this, _$identity);
+  _$$UnoProjectImplCopyWith<_$UnoProjectImpl> get copyWith =>
+      __$$UnoProjectImplCopyWithImpl<_$UnoProjectImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnoProjectToJson(
+    return _$$UnoProjectImplToJson(
       this,
     );
   }
@@ -193,10 +193,10 @@ abstract class _UnoProject implements UnoProject {
   const factory _UnoProject(
       {required final String projecPath,
       required final List<String> levels,
-      required final UnoPalette palette}) = _$_UnoProject;
+      required final UnoPalette palette}) = _$UnoProjectImpl;
 
   factory _UnoProject.fromJson(Map<String, dynamic> json) =
-      _$_UnoProject.fromJson;
+      _$UnoProjectImpl.fromJson;
 
   @override
   String get projecPath;
@@ -206,6 +206,6 @@ abstract class _UnoProject implements UnoProject {
   UnoPalette get palette;
   @override
   @JsonKey(ignore: true)
-  _$$_UnoProjectCopyWith<_$_UnoProject> get copyWith =>
+  _$$UnoProjectImplCopyWith<_$UnoProjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

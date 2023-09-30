@@ -68,22 +68,22 @@ class _$UnoPaletteCopyWithImpl<$Res, $Val extends UnoPalette>
 }
 
 /// @nodoc
-abstract class _$$_UnoPaletteCopyWith<$Res>
+abstract class _$$UnoPaletteImplCopyWith<$Res>
     implements $UnoPaletteCopyWith<$Res> {
-  factory _$$_UnoPaletteCopyWith(
-          _$_UnoPalette value, $Res Function(_$_UnoPalette) then) =
-      __$$_UnoPaletteCopyWithImpl<$Res>;
+  factory _$$UnoPaletteImplCopyWith(
+          _$UnoPaletteImpl value, $Res Function(_$UnoPaletteImpl) then) =
+      __$$UnoPaletteImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<UnoPaletteItem> items, Map<String, String>? levelMetadata});
 }
 
 /// @nodoc
-class __$$_UnoPaletteCopyWithImpl<$Res>
-    extends _$UnoPaletteCopyWithImpl<$Res, _$_UnoPalette>
-    implements _$$_UnoPaletteCopyWith<$Res> {
-  __$$_UnoPaletteCopyWithImpl(
-      _$_UnoPalette _value, $Res Function(_$_UnoPalette) _then)
+class __$$UnoPaletteImplCopyWithImpl<$Res>
+    extends _$UnoPaletteCopyWithImpl<$Res, _$UnoPaletteImpl>
+    implements _$$UnoPaletteImplCopyWith<$Res> {
+  __$$UnoPaletteImplCopyWithImpl(
+      _$UnoPaletteImpl _value, $Res Function(_$UnoPaletteImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_UnoPaletteCopyWithImpl<$Res>
     Object? items = null,
     Object? levelMetadata = freezed,
   }) {
-    return _then(_$_UnoPalette(
+    return _then(_$UnoPaletteImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -107,15 +107,15 @@ class __$$_UnoPaletteCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnoPalette implements _UnoPalette {
-  const _$_UnoPalette(
+class _$UnoPaletteImpl implements _UnoPalette {
+  const _$UnoPaletteImpl(
       {required final List<UnoPaletteItem> items,
       final Map<String, String>? levelMetadata})
       : _items = items,
         _levelMetadata = levelMetadata;
 
-  factory _$_UnoPalette.fromJson(Map<String, dynamic> json) =>
-      _$$_UnoPaletteFromJson(json);
+  factory _$UnoPaletteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnoPaletteImplFromJson(json);
 
   final List<UnoPaletteItem> _items;
   @override
@@ -144,7 +144,7 @@ class _$_UnoPalette implements _UnoPalette {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnoPalette &&
+            other is _$UnoPaletteImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             const DeepCollectionEquality()
                 .equals(other._levelMetadata, _levelMetadata));
@@ -160,12 +160,12 @@ class _$_UnoPalette implements _UnoPalette {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnoPaletteCopyWith<_$_UnoPalette> get copyWith =>
-      __$$_UnoPaletteCopyWithImpl<_$_UnoPalette>(this, _$identity);
+  _$$UnoPaletteImplCopyWith<_$UnoPaletteImpl> get copyWith =>
+      __$$UnoPaletteImplCopyWithImpl<_$UnoPaletteImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnoPaletteToJson(
+    return _$$UnoPaletteImplToJson(
       this,
     );
   }
@@ -174,10 +174,10 @@ class _$_UnoPalette implements _UnoPalette {
 abstract class _UnoPalette implements UnoPalette {
   const factory _UnoPalette(
       {required final List<UnoPaletteItem> items,
-      final Map<String, String>? levelMetadata}) = _$_UnoPalette;
+      final Map<String, String>? levelMetadata}) = _$UnoPaletteImpl;
 
   factory _UnoPalette.fromJson(Map<String, dynamic> json) =
-      _$_UnoPalette.fromJson;
+      _$UnoPaletteImpl.fromJson;
 
   @override
   List<UnoPaletteItem> get items;
@@ -185,7 +185,7 @@ abstract class _UnoPalette implements UnoPalette {
   Map<String, String>? get levelMetadata;
   @override
   @JsonKey(ignore: true)
-  _$$_UnoPaletteCopyWith<_$_UnoPalette> get copyWith =>
+  _$$UnoPaletteImplCopyWith<_$UnoPaletteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -266,11 +266,11 @@ class _$UnoPaletteItemCopyWithImpl<$Res, $Val extends UnoPaletteItem>
 }
 
 /// @nodoc
-abstract class _$$_UnoPaletteItemCopyWith<$Res>
+abstract class _$$UnoPaletteItemImplCopyWith<$Res>
     implements $UnoPaletteItemCopyWith<$Res> {
-  factory _$$_UnoPaletteItemCopyWith(
-          _$_UnoPaletteItem value, $Res Function(_$_UnoPaletteItem) then) =
-      __$$_UnoPaletteItemCopyWithImpl<$Res>;
+  factory _$$UnoPaletteItemImplCopyWith(_$UnoPaletteItemImpl value,
+          $Res Function(_$UnoPaletteItemImpl) then) =
+      __$$UnoPaletteItemImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -282,11 +282,11 @@ abstract class _$$_UnoPaletteItemCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UnoPaletteItemCopyWithImpl<$Res>
-    extends _$UnoPaletteItemCopyWithImpl<$Res, _$_UnoPaletteItem>
-    implements _$$_UnoPaletteItemCopyWith<$Res> {
-  __$$_UnoPaletteItemCopyWithImpl(
-      _$_UnoPaletteItem _value, $Res Function(_$_UnoPaletteItem) _then)
+class __$$UnoPaletteItemImplCopyWithImpl<$Res>
+    extends _$UnoPaletteItemCopyWithImpl<$Res, _$UnoPaletteItemImpl>
+    implements _$$UnoPaletteItemImplCopyWith<$Res> {
+  __$$UnoPaletteItemImplCopyWithImpl(
+      _$UnoPaletteItemImpl _value, $Res Function(_$UnoPaletteItemImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -298,7 +298,7 @@ class __$$_UnoPaletteItemCopyWithImpl<$Res>
     Object? icon = freezed,
     Object? iconSprite = freezed,
   }) {
-    return _then(_$_UnoPaletteItem(
+    return _then(_$UnoPaletteItemImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -325,8 +325,8 @@ class __$$_UnoPaletteItemCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnoPaletteItem implements _UnoPaletteItem {
-  const _$_UnoPaletteItem(
+class _$UnoPaletteItemImpl implements _UnoPaletteItem {
+  const _$UnoPaletteItemImpl(
       {required this.id,
       required this.type,
       required final Map<String, String> data,
@@ -334,8 +334,8 @@ class _$_UnoPaletteItem implements _UnoPaletteItem {
       this.iconSprite})
       : _data = data;
 
-  factory _$_UnoPaletteItem.fromJson(Map<String, dynamic> json) =>
-      _$$_UnoPaletteItemFromJson(json);
+  factory _$UnoPaletteItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnoPaletteItemImplFromJson(json);
 
   @override
   final String id;
@@ -363,7 +363,7 @@ class _$_UnoPaletteItem implements _UnoPaletteItem {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnoPaletteItem &&
+            other is _$UnoPaletteItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
@@ -380,12 +380,13 @@ class _$_UnoPaletteItem implements _UnoPaletteItem {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnoPaletteItemCopyWith<_$_UnoPaletteItem> get copyWith =>
-      __$$_UnoPaletteItemCopyWithImpl<_$_UnoPaletteItem>(this, _$identity);
+  _$$UnoPaletteItemImplCopyWith<_$UnoPaletteItemImpl> get copyWith =>
+      __$$UnoPaletteItemImplCopyWithImpl<_$UnoPaletteItemImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnoPaletteItemToJson(
+    return _$$UnoPaletteItemImplToJson(
       this,
     );
   }
@@ -397,10 +398,10 @@ abstract class _UnoPaletteItem implements UnoPaletteItem {
       required final String type,
       required final Map<String, String> data,
       final String? icon,
-      final String? iconSprite}) = _$_UnoPaletteItem;
+      final String? iconSprite}) = _$UnoPaletteItemImpl;
 
   factory _UnoPaletteItem.fromJson(Map<String, dynamic> json) =
-      _$_UnoPaletteItem.fromJson;
+      _$UnoPaletteItemImpl.fromJson;
 
   @override
   String get id;
@@ -414,6 +415,6 @@ abstract class _UnoPaletteItem implements UnoPaletteItem {
   String? get iconSprite;
   @override
   @JsonKey(ignore: true)
-  _$$_UnoPaletteItemCopyWith<_$_UnoPaletteItem> get copyWith =>
+  _$$UnoPaletteItemImplCopyWith<_$UnoPaletteItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
