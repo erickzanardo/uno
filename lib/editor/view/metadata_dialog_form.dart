@@ -58,7 +58,7 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                 child: NesTooltip(
                   message: 'Reload with template',
                   child: NesIconButton(
-                    icon: NesIcons.instance.redo,
+                    icon: NesIcons.redo,
                     onPress: widget.onReload,
                   ),
                 ),

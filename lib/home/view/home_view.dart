@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nes_ui/nes_ui.dart';
 import 'package:path/path.dart' as path;
 import 'package:uno/app/cubit/app_cubit.dart';
+import 'package:uno/edit_project/edit_project.dart';
 import 'package:uno/editor/editor.dart';
 
 class HomeView extends StatelessWidget {
@@ -31,17 +32,29 @@ class HomeView extends StatelessWidget {
               child: Row(
                 children: [
                   NesIconButton(
-                    icon: NesIcons.instance.add,
+                    icon: NesIcons.add,
                     onPress: () {
                       Navigator.of(context).push(EditorPage.route());
                     },
                   ),
                   const SizedBox(width: 16),
                   NesIconButton(
-                    icon: NesIcons.instance.redo,
+                    icon: NesIcons.redo,
                     onPress: () {
                       context.read<AppCubit>().reloadProject();
                     },
+                  ),
+                  const SizedBox(width: 16),
+                  const Text('|'),
+                  const SizedBox(width: 16),
+                  NesTooltip(
+                    message: 'Edit project data',
+                    child: NesIconButton(
+                      icon: NesIcons.edit,
+                      onPress: () {
+                        Navigator.of(context).push(EditProjectPage.route());
+                      },
+                    ),
                   ),
                 ],
               ),

@@ -1,12 +1,10 @@
+import 'package:uno/helpers/uno.dart';
+
 extension MetadataX on Map<String, String> {
   Map<String, String> editableMetadata() {
     return {
       for (final entry in entries)
-        if (entry.key != 'type' &&
-            entry.key != 'id' &&
-            entry.key != 'icon' &&
-            entry.key != 'iconSprite')
-          entry.key: entry.value,
+        if (!reservedDataKeys.contains(entry.key)) entry.key: entry.value,
     };
   }
 }

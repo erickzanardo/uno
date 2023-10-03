@@ -10,6 +10,7 @@ void main() {
         UnoLevelObject(
           x: 0,
           y: 0,
+          z: 0,
           metadata: {},
         ),
         isNotNull,
@@ -22,6 +23,7 @@ void main() {
           UnoLevelObject(
             x: 0,
             y: 0,
+            z: 0,
             metadata: {},
           ).metadataValue<String>('key'),
           isNull,
@@ -33,6 +35,7 @@ void main() {
           UnoLevelObject(
             x: 0,
             y: 0,
+            z: 0,
             metadata: {'key': 'value'},
           ).metadataValue<String>('key'),
           equals('value'),
@@ -44,6 +47,7 @@ void main() {
           UnoLevelObject(
             x: 0,
             y: 0,
+            z: 0,
             metadata: {'key': '1'},
           ).metadataValue<int>('key'),
           equals(1),
@@ -55,6 +59,7 @@ void main() {
           UnoLevelObject(
             x: 0,
             y: 0,
+            z: 0,
             metadata: {'key': '1.0'},
           ).metadataValue<double>('key'),
           equals(1.0),
@@ -66,6 +71,7 @@ void main() {
           UnoLevelObject(
             x: 0,
             y: 0,
+            z: 0,
             metadata: {'key': 'true'},
           ).metadataValue<bool>('key'),
           isTrue,
