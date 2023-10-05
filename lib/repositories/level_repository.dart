@@ -15,31 +15,6 @@ class LevelRepositoryFailure implements Exception {
 }
 
 class LevelRepository {
-  Future<UnoProject> fetchProject(String directoryPath) async {
-    final directory = Directory(directoryPath);
-
-    final files = directory.listSync();
-    final levels = files.where((file) => !file.path.endsWith('.uno')).toList()
-      ..sort((a, b) => a.path.compareTo(b.path));
-    final palettes = files.where((file) => file.path.endsWith('.uno')).toList();
-
-    if (palettes.length != 1) {
-      throw const LevelRepositoryFailure(
-        message: 'There must be exactly one .uno file in the directory',
-      );
-    }
-
-    final paletteRaw = await File(palettes.first.path).readAsString();
-    final paletteJson = jsonDecode(paletteRaw) as Map<String, dynamic>;
-    final palette = UnoPalette.fromJson(paletteJson);
-
-    return UnoProject(
-      projecPath: directoryPath,
-      levels: levels.map((file) => file.path).toList(),
-      palette: palette,
-    );
-  }
-
   Future<UnoLevel> loadData(String filename) async {
     final file = File(filename);
     final data = await file.readAsString();

@@ -7,15 +7,17 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final levelRepository = LevelRepository();
+  final projectRepository = ProjectRepository();
 
   runApp(
     MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: levelRepository),
+        RepositoryProvider.value(value: projectRepository),
       ],
       child: BlocProvider(
         create: (_) => AppCubit(
-          levelRepository: levelRepository,
+          projectRepository: projectRepository,
         ),
         child: const AppView(),
       ),

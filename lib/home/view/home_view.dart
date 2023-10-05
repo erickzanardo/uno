@@ -34,7 +34,9 @@ class HomeView extends StatelessWidget {
                   NesIconButton(
                     icon: NesIcons.add,
                     onPress: () {
-                      Navigator.of(context).push(EditorPage.route());
+                      Navigator.of(context).push(EditorPage.route()).then((_) {
+                        cubit.reloadProject();
+                      });
                     },
                   ),
                   const SizedBox(width: 16),

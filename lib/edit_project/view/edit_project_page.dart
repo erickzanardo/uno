@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nes_ui/nes_ui.dart';
 import 'package:uno/app/app.dart';
 import 'package:uno/edit_project/edit_project.dart';
+import 'package:uno/repositories/repositories.dart';
 import 'package:uno_data/uno_data.dart';
 
 class EditProjectPage extends StatelessWidget {
@@ -15,11 +16,14 @@ class EditProjectPage extends StatelessWidget {
           create: (context) {
             final state = context.read<AppCubit>().state;
 
-            final palette = state is AppLoaded
-                ? state.project.palette
-                : const UnoPalette(items: []);
+            if (state is! AppLoaded) {
+              throw Exception('Cannot edit project without a loaded project');
+            }
 
-            return EditProjectCubit(palette: palette);
+            return EditProjectCubit(
+              project: state.project,
+              projectRepository: context.read<ProjectRepository>(),
+            );
           },
           child: const EditProjectPage(),
         );
@@ -46,12 +50,35 @@ class EditProjectView extends StatelessWidget {
           width: double.infinity,
           child: NesSingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                NesButton(
+                  type: NesButtonType.normal,
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: NesIcon(
+                    iconData: NesIcons.leftArrowIndicator,
+                  ),
+                ),
+                const SizedBox(height: 32),
                 Text(
                   'Project palette',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Divider(),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    NesTooltip(
+                      arrowPlacement: NesTooltipArrowPlacement.right,
+                      message: 'Add new palette item',
+                      child: NesIconButton(
+                        onPress: cubit.addPaletteItem,
+                        icon: NesIcons.add,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 16),
                 Wrap(
                   children: [
@@ -109,19 +136,33 @@ class _PaletteItemCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            NesIconButton(
-              icon: NesIcons.edit,
-              onPress: () async {
-                final cubit = context.read<EditProjectCubit>();
-                final data = await MetadataDialogForm.show(
-                  context,
-                  data: item.metadata(),
-                );
+            Column(
+              children: [
+                NesIconButton(
+                  icon: NesIcons.edit,
+                  onPress: () async {
+                    final cubit = context.read<EditProjectCubit>();
+                    final data = await MetadataDialogForm.show(
+                      context,
+                      data: item.metadata(),
+                    );
 
-                if (data != null) {
-                  cubit.updatePaletteItem(itemId: item.id, data: data);
-                }
-              },
+                    if (data != null) {
+                      await cubit.updatePaletteItem(
+                        itemId: item.id,
+                        data: data,
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 8),
+                NesIconButton(
+                  icon: NesIcons.copy,
+                  onPress: () {
+                    context.read<EditProjectCubit>().copyPaletteItem(item);
+                  },
+                ),
+              ],
             ),
           ],
         ),
