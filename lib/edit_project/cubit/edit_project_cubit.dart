@@ -84,4 +84,12 @@ class EditProjectCubit extends Cubit<EditProjectState> {
 
     _savePalette(newPalette);
   }
+
+  void removePaletteItem({required String itemId}) {
+    final newPalette = state.palette.copyWith(
+      items: state.palette.items.where((item) => item.id != itemId).toList(),
+    );
+
+    _savePalette(newPalette);
+  }
 }

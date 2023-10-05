@@ -162,6 +162,20 @@ class _PaletteItemCard extends StatelessWidget {
                     context.read<EditProjectCubit>().copyPaletteItem(item);
                   },
                 ),
+                const SizedBox(height: 8),
+                NesIconButton(
+                  icon: NesIcons.delete,
+                  onPress: () async {
+                    final cubit = context.read<EditProjectCubit>();
+                    final data = await NesConfirmDialog.show(context: context);
+
+                    if (data ?? false) {
+                      cubit.removePaletteItem(
+                        itemId: item.id,
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ],
