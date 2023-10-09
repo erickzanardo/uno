@@ -1,0 +1,23 @@
+name: uno_top_view_game
+description: A package that implements a top down view game based on Uno maps
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flame: ^1.9.1
+  flutter:
+    sdk: flutter
+  uno_data:
+    git:
+      url: https://github.com/erickzanardo/uno.git
+      path: packages/uno_data
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  very_good_analysis: ^5.1.0

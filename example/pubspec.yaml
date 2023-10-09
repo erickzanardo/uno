@@ -11,8 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
+  uno_data:
+    git:
+      url: https://github.com/erickzanardo/uno.git
+      path: packages/uno_data
+  uno_top_view_game:
+    path: ../packages/uno_top_view_game
+  flame: ^1.9.1
 
 dev_dependencies:
   flutter_test:
