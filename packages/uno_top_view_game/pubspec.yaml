@@ -17,6 +17,7 @@ dependencies:
       path: packages/uno_data
 
 dev_dependencies:
+  flame_test: ^1.13.1
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.0

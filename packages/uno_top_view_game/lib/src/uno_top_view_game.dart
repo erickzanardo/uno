@@ -59,7 +59,7 @@ class UnoTopViewGame extends FlameGame {
       width: resolution.x,
       height: resolution.y,
       // TODO(erickzanardo): We might want to parametrize this!
-    )..viewfinder.position =  stageSize / 2;
+    )..viewfinder.position = stageSize / 2;
 
     // Make sure we have all objects mapped.
     for (final obj in level.objects) {
