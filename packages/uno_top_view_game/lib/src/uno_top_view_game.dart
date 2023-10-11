@@ -32,6 +32,9 @@ class UnoTopViewGame extends FlameGame {
   /// The map of objects in the game.
   late final Map<(int, int), List<UnoLevelObject>> objectsMap = {};
 
+  /// The map of components in the game, indexed by their index in the grid.
+  late final Map<(int, int), List<UnoObjectComponent>> componentsMap = {};
+
   /// The resolution of the game.
   late final Vector2 resolution;
 
@@ -92,6 +95,10 @@ class UnoTopViewGame extends FlameGame {
       );
 
       world.add(component);
+
+      final i = (obj.x, obj.y);
+      componentsMap[i] ??= [];
+      componentsMap[i]?.add(component);
     }
 
     this.camera = camera;

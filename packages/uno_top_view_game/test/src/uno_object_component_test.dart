@@ -16,6 +16,15 @@ void main() {
         height: 10,
       ),
       tileSize: 16,
+    )..registerObjectBuilder('', (obj) => [PositionComponent()]);
+  }
+
+  UnoLevelObject createObject(int x, int y, [int z = 0]) {
+    return UnoLevelObject(
+      x: x,
+      y: y,
+      z: z,
+      metadata: {'type': ''},
     );
   }
 
@@ -23,12 +32,7 @@ void main() {
     test('can be instantiated', () {
       expect(
         UnoObjectComponent(
-          object: UnoLevelObject(
-            x: 0,
-            y: 0,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(0, 0),
         ),
         isNotNull,
       );
@@ -40,12 +44,7 @@ void main() {
       (game) async {
         final component = UnoObjectComponent(
           position: Vector2.all(32),
-          object: UnoLevelObject(
-            x: 2,
-            y: 2,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(2, 2),
         );
         await game.ensureAdd(component);
 
@@ -59,12 +58,7 @@ void main() {
       (game) async {
         final component = UnoObjectComponent(
           position: Vector2.all(32),
-          object: UnoLevelObject(
-            x: 2,
-            y: 2,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(2, 2),
         );
         await game.ensureAdd(component);
 
@@ -78,12 +72,7 @@ void main() {
       (game) async {
         final component = UnoObjectComponent(
           position: Vector2.all(32),
-          object: UnoLevelObject(
-            x: 2,
-            y: 2,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(2, 2),
         );
         await game.ensureAdd(component);
 
@@ -97,12 +86,7 @@ void main() {
       (game) async {
         final component = UnoObjectComponent(
           position: Vector2.all(32),
-          object: UnoLevelObject(
-            x: 2,
-            y: 2,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(2, 2),
         );
         await game.ensureAdd(component);
 
@@ -116,16 +100,99 @@ void main() {
       (game) async {
         final component = UnoObjectComponent(
           position: Vector2.all(32),
-          object: UnoLevelObject(
-            x: 2,
-            y: 2,
-            z: 0,
-            metadata: {},
-          ),
+          object: createObject(2, 2),
         );
         await game.ensureAdd(component);
 
         expect(component.indexRight, (3, 2));
+      },
+    );
+
+    testWithGame(
+      'correctly calculates objects around it',
+      () => createGame(
+        [
+          createObject(0, 0),
+          createObject(1, 0),
+          createObject(2, 0),
+          createObject(0, 1),
+          createObject(1, 1),
+          createObject(2, 1),
+          createObject(0, 2),
+          createObject(1, 2),
+          createObject(2, 2),
+        ],
+      ),
+      (game) async {
+        final component = game.componentsMap[(1, 1)]!.first;
+
+        final objectBelow = component.objectBelow();
+        final objectAbove = component.objectAbove();
+        final objectLeft = component.objectLeft();
+        final objectRight = component.objectRight();
+
+        expect(objectBelow?.x, equals(1));
+        expect(objectBelow?.y, equals(2));
+
+        expect(objectAbove?.x, equals(1));
+        expect(objectAbove?.y, equals(0));
+
+        expect(objectLeft?.x, equals(0));
+        expect(objectLeft?.y, equals(1));
+
+        expect(objectRight?.x, equals(2));
+        expect(objectRight?.y, equals(1));
+      },
+    );
+
+    testWithGame(
+      'correctly calculates objects around it when they are a in different z',
+      () => createGame(
+        [
+          createObject(0, 0, 1),
+          createObject(1, 0, 1),
+          createObject(2, 0, 1),
+          createObject(0, 1, 1),
+          createObject(1, 1),
+          createObject(2, 1, 1),
+          createObject(0, 2, 1),
+          createObject(1, 2, 1),
+          createObject(2, 2, 1),
+        ],
+      ),
+      (game) async {
+        final component = game.componentsMap[(1, 1)]!.first;
+
+        var objectBelow = component.objectBelow();
+        var objectAbove = component.objectAbove();
+        var objectLeft = component.objectLeft();
+        var objectRight = component.objectRight();
+
+        // By default it tries to find in the object's z
+        // which should find none in our setup
+        expect(objectBelow, isNull);
+        expect(objectAbove, isNull);
+        expect(objectLeft, isNull);
+        expect(objectRight, isNull);
+
+        objectBelow = component.objectBelow(1);
+        objectAbove = component.objectAbove(1);
+        objectLeft = component.objectLeft(1);
+        objectRight = component.objectRight(1);
+
+        // But it is able to find when we try looking in a specific
+        // z
+        expect(objectBelow?.x, equals(1));
+        expect(objectBelow?.y, equals(2));
+
+        expect(objectAbove?.x, equals(1));
+        expect(objectAbove?.y, equals(0));
+
+        expect(objectLeft?.x, equals(0));
+        expect(objectLeft?.y, equals(1));
+
+        expect(objectRight?.x, equals(2));
+        expect(objectRight?.y, equals(1));
       },
     );
   });
