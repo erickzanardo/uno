@@ -49,21 +49,40 @@ class UnoObjectComponent extends PositionComponent
     return (i.$1 + 1, i.$2);
   }
 
-  //UnoLevelObject? objectRelative(int x, int y) {
-  //  if (this is HasGameRef<LotEternalFlameGame>) {
-  //    final game = (this as HasGameRef<LotEternalFlameGame>).gameRef;
-  //    final index = currentIndex;
-  //    return game.objectsMap[(
-  //      index.$1 + x,
-  //      index.$2 + y,
-  //    )];
-  //  }
+  /// Returns the object relative to this object, if any.
+  ///
+  /// By default tries to find objects on the same layer as this object,
+  /// that can be changed by passing a [z] value.
+  UnoLevelObject? objectRelative(int x, int y, [int? z]) {
+    final index = currentIndex;
 
-  //  return null;
-  //}
+    final objects = gameRef.objectsMap[(
+      index.$1 + x,
+      index.$2 + y,
+    )];
 
-  //UnoLevelObject? get objectBelow => objectRelative(0, 1);
-  //UnoLevelObject? get objectAbove => objectRelative(0, -1);
-  //UnoLevelObject? get objectLeft => objectRelative(-1, 0);
-  //UnoLevelObject? get objectRight => objectRelative(1, 0);
+    if (objects == null || objects.isEmpty) {
+      return null;
+    } else {
+      final layer = objects.where((o) => o.z == (z ?? object.z));
+
+      if (layer.isEmpty) {
+        return null;
+      } else {
+        return layer.first;
+      }
+    }
+  }
+
+  /// Returns the object above this object, if any.
+  UnoLevelObject? objectBelow([int? z]) => objectRelative(0, 1, z);
+
+  /// Returns the object below this object, if any.
+  UnoLevelObject? objectAbove([int? z]) => objectRelative(0, -1, z);
+
+  /// Returns the object to the left of this object, if any.
+  UnoLevelObject? objectLeft([int? z]) => objectRelative(-1, 0, z);
+
+  /// Returns the object to the right of this object, if any.
+  UnoLevelObject? objectRight([int? z]) => objectRelative(1, 0, z);
 }

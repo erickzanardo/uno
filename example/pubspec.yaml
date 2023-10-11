@@ -19,6 +19,7 @@ dependencies:
   uno_top_view_game:
     path: ../packages/uno_top_view_game
   flame: ^1.9.1
+  spritexp: ^0.2.0
 
 dev_dependencies:
   flutter_test:

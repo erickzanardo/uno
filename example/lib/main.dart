@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:example/components/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
+import 'package:spritexp/spritexp.dart';
 import 'package:uno_data/uno_data.dart';
 import 'package:uno_top_view_game/uno_top_view_game.dart';
 
@@ -20,8 +24,28 @@ void main() async {
 class AdventureGame extends UnoTopViewGame {
   AdventureGame({required super.level}) : super(tileSize: gameTileSize) {
     registerObjectBuilder('start_point', (_) => [Player()]);
-    registerObjectBuilder('ground', (_) => [Ground()]);
+    registerObjectBuilder(
+        'ground',
+        (object) => [
+              Ground(
+                object: object,
+                nineBoxTileList: _groundSprites,
+              ),
+            ]);
   }
 
+  late List<Sprite> _groundSprites;
+
   static const gameTileSize = 16.0;
+
+  @override
+  FutureOr<void> onLoad() async {
+    final spritesImage = await images.load('sprites.png');
+    final groundExp = SpritExp(
+      expression: '{0, 16, 16, 16} * 3yx',
+    );
+    _groundSprites = groundExp / spritesImage;
+
+    await super.onLoad();
+  }
 }

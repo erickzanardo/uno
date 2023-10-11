@@ -160,6 +160,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  spritexp:
+    dependency: "direct main"
+    description:
+      name: spritexp
+      sha256: "05fcb151fecbbfdf15db164a20d8d9fa88a7839a7b0e5936dbaaff4efb4fe90b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   stack_trace:
     dependency: transitive
     description:
