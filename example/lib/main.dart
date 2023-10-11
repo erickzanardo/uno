@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:example/components/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/sprite.dart';
@@ -21,17 +22,16 @@ void main() async {
   );
 }
 
-class AdventureGame extends UnoTopViewGame {
+class AdventureGame extends UnoTopViewGame with HasKeyboardHandlerComponents {
   AdventureGame({required super.level}) : super(tileSize: gameTileSize) {
-    registerObjectBuilder('start_point', (_) => [Player()]);
+    registerObjectBuilder('start_point', Player.builder);
     registerObjectBuilder(
-        'ground',
-        (object) => [
-              Ground(
-                object: object,
-                nineBoxTileList: _groundSprites,
-              ),
-            ]);
+      'ground',
+      (object) => Ground.builder(
+        object,
+        _groundSprites,
+      ),
+    );
   }
 
   late List<Sprite> _groundSprites;
