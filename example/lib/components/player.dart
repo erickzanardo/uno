@@ -11,6 +11,7 @@ class Player extends SpriteComponent
   Player()
       : super(
           size: Vector2.all(AdventureGame.gameTileSize),
+          position: Vector2(0, -AdventureGame.gameTileSize * .4),
         );
 
   static List<PositionComponent> builder(UnoLevelObject object) {

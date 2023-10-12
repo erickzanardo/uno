@@ -48,4 +48,10 @@ class AdventureGame extends UnoTopViewGame with HasKeyboardHandlerComponents {
 
     await super.onLoad();
   }
+
+  @override
+  bool isWalkeable(UnoLevelObject object) {
+    const walkableObjects = ['ground'];
+    return walkableObjects.contains(object.metadata['type']);
+  }
 }

@@ -40,6 +40,19 @@ class UnoTopViewGame extends FlameGame {
 
   final Map<String, UnoObjectComponentBuilder> _objectBuilders = {};
 
+  /// Returns the object at the given index.
+  UnoLevelObject? getObjectAt((int, int) index, [int z = 1]) {
+    final objects = objectsMap[index];
+    final result = objects?.where(
+      (o) => o.z == z,
+    );
+    if (result?.isNotEmpty ?? false) {
+      return result!.first;
+    } else {
+      return null;
+    }
+  }
+
   /// Register a builder for an object type.
   void registerObjectBuilder(
     String type,
@@ -102,5 +115,11 @@ class UnoTopViewGame extends FlameGame {
     }
 
     this.camera = camera;
+  }
+
+  /// Tells if a given object is walkable, by default, returns false,
+  /// Override this method to change the behavior.
+  bool isWalkeable(UnoLevelObject object) {
+    return false;
   }
 }

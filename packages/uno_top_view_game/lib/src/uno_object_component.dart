@@ -121,50 +121,64 @@ class UnoObjectComponent extends PositionComponent
 
   void _onMove() {
     if (!_busy) {
-      // TODO(erickzanardo): verify if can move
-
       final movingX = moving.$1;
       final movingY = moving.$2;
 
-      Vector2? destination;
+      (int, int)? destinationIndex;
 
       if (movingX != null) {
-        destination = Vector2(
-          position.x + (movingX ? gameRef.tileSize : -gameRef.tileSize),
-          position.y,
-        );
+        destinationIndex = movingX ? indexRight : indexLeft;
       } else if (movingY != null) {
-        destination = Vector2(
-          position.x,
-          position.y + (movingY ? gameRef.tileSize : -gameRef.tileSize),
-        );
+        destinationIndex = movingY ? indexBelow : indexAbove;
       }
 
-      if (destination != null) {
-        _busy = true;
-        add(
-          _SimpleMoveEffect(
-            destination,
-            onComplete: () {
-              _busy = false;
-              if (_moving.value.$1 != null || _moving.value.$2 != null) {
-                _onMove();
-              }
-            },
-          ),
+      if (destinationIndex != null) {
+        final destinationObject = gameRef.getObjectAt(
+          destinationIndex,
+          object.z - 1,
         );
+
+        final canMove =
+            destinationObject != null && gameRef.isWalkeable(destinationObject);
+
+        if (canMove) {
+          _busy = true;
+          final vector = Vector2(
+            (destinationIndex.$1 - currentIndex.$1) * gameRef.tileSize,
+            (destinationIndex.$2 - currentIndex.$2) * gameRef.tileSize,
+          );
+          add(
+            _SimpleMoveEffect(
+              vector,
+              onComplete: () {
+                position = Vector2(
+                  destinationObject.x * gameRef.tileSize,
+                  destinationObject.y * gameRef.tileSize,
+                );
+
+                _busy = false;
+                if (_moving.value.$1 != null || _moving.value.$2 != null) {
+                  _onMove();
+                }
+              },
+            ),
+          );
+        } else {
+          _moving.value = (null, null);
+          _busy = false;
+        }
       }
     }
   }
 }
 
-class _SimpleMoveEffect extends MoveToEffect {
+class _SimpleMoveEffect extends MoveByEffect {
   _SimpleMoveEffect(
     Vector2 destination, {
     VoidCallback? onComplete,
   }) : super(
           destination,
-          LinearEffectController(1),
+          LinearEffectController(.4),
           onComplete: onComplete,
         );
 }
