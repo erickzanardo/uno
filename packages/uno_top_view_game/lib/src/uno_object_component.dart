@@ -16,6 +16,7 @@ class UnoObjectComponent extends PositionComponent
     required this.object,
     super.position,
     super.priority,
+    this.tilesPerSecond = 2,
   });
 
   /// The object that this component represents.
@@ -31,6 +32,9 @@ class UnoObjectComponent extends PositionComponent
 
   /// Sets the direction that the object is moving in (x, y).
   set moving((bool?, bool?) value) => _moving.value = value;
+
+  /// How many tiles per second this object moves.
+  double tilesPerSecond;
 
   bool _busy = false;
 
@@ -150,6 +154,7 @@ class UnoObjectComponent extends PositionComponent
           add(
             _SimpleMoveEffect(
               vector,
+              duration: 1 / tilesPerSecond,
               onComplete: () {
                 position = Vector2(
                   destinationObject.x * gameRef.tileSize,
@@ -175,10 +180,11 @@ class UnoObjectComponent extends PositionComponent
 class _SimpleMoveEffect extends MoveByEffect {
   _SimpleMoveEffect(
     Vector2 destination, {
+    required double duration,
     VoidCallback? onComplete,
   }) : super(
           destination,
-          LinearEffectController(.4),
+          LinearEffectController(duration),
           onComplete: onComplete,
         );
 }

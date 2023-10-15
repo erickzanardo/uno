@@ -22,6 +22,7 @@ class Player extends SpriteComponent
   FutureOr<void> onLoad() async {
     await super.onLoad();
 
+    parent.tilesPerSecond = 4;
     sprite = await gameRef.loadSprite(
       'sprites.png',
       srcSize: Vector2.all(16),
