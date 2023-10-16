@@ -40,8 +40,6 @@ class Scorpion extends SpriteComponent
 
     _path = path;
     parent.path = [..._path];
-
-    parent.tilesPerSecond = 1;
     parent.onPathComplete = () {
       _path = _path.reversed
           .map((e) =>

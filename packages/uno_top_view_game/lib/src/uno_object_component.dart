@@ -6,6 +6,18 @@ import 'package:flutter/widgets.dart';
 import 'package:uno_data/uno_data.dart';
 import 'package:uno_top_view_game/uno_top_view_game.dart';
 
+extension on UnoLevelObject {
+  double tilesPerSecond() {
+    final metadataValue = metadata['tiles_per_second'];
+
+    if (metadataValue != null) {
+      return double.parse(metadataValue);
+    }
+
+    return 2;
+  }
+}
+
 /// {@template uno_object_component}
 /// The root componnet of all Uno objects.
 /// {@endtemplate}
@@ -16,8 +28,7 @@ class UnoObjectComponent extends PositionComponent
     required this.object,
     super.position,
     super.priority,
-    this.tilesPerSecond = 2,
-  });
+  }) : tilesPerSecond = object.tilesPerSecond();
 
   /// The object that this component represents.
   final UnoLevelObject object;
