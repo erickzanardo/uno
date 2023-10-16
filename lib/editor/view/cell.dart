@@ -15,12 +15,14 @@ import 'package:uno_data/uno_data.dart';
 class DataObjectCell extends StatelessWidget {
   const DataObjectCell({
     required this.object,
+    required this.project,
     required this.child,
     super.key,
   });
 
   final Cell child;
   final UnoLevelObject object;
+  final UnoProject project;
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +40,31 @@ class DataObjectCell extends StatelessWidget {
           top: 0,
           child: NesPressable(
             onPress: () {
+              final cubit = context.read<EditorCubit>();
               NesDialog.show<void>(
                 context: context,
                 builder: (_) {
+                  final paletteItems = project.palette.items.where(
+                    (element) => element.type == object.metadata['type'],
+                  );
+
+                  final nonEditableKeys = paletteItems.isNotEmpty
+                      ? paletteItems.first.nonEditableProperties
+                      : <String>[];
+
                   return MetadataDialogForm(
                     data: object.metadata.editableMetadata(),
+                    nonEditableKeys: nonEditableKeys ?? [],
                     onChange: (
                       key,
                       value,
                     ) {
-                      context.read<EditorCubit>().updateLevelDataObjectData(
-                            object.x,
-                            object.y,
-                            key,
-                            value,
-                          );
+                      cubit.updateLevelDataObjectData(
+                        object.x,
+                        object.y,
+                        key,
+                        value,
+                      );
                     },
                   );
                 },

@@ -145,6 +145,7 @@ class _EditorViewState extends State<EditorView> {
                               return MetadataDialogForm(
                                 data: cubit.state.level.metadata,
                                 onChange: cubit.updateLevelMetadata,
+                                nonEditableKeys: const [],
                                 onReload: () {
                                   cubit.reloadLevelMetadata();
                                   Navigator.of(context).pop();
@@ -286,6 +287,7 @@ class _EditorViewState extends State<EditorView> {
                                   mapData: mapData,
                                   cubit: cubit,
                                   mappedDataObjects: mappedDataObjects,
+                                  appState: appState,
                                 ),
                               );
                             },
@@ -464,12 +466,14 @@ class _Board extends StatelessWidget {
     required this.cellSize,
     required this.mapData,
     required this.cubit,
+    required this.appState,
     required this.mappedDataObjects,
   });
 
   final double cellSize;
   final UnoLevel mapData;
   final EditorCubit cubit;
+  final AppLoaded appState;
   final Map<(int, int), List<UnoLevelObject>> mappedDataObjects;
 
   @override
@@ -516,6 +520,7 @@ class _Board extends StatelessWidget {
                                   } else {
                                     return DataObjectCell(
                                       object: obj,
+                                      project: appState.project,
                                       child: child,
                                     );
                                   }

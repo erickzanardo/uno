@@ -24,12 +24,14 @@ class EditProjectCubit extends Cubit<EditProjectState> {
   Future<void> updatePaletteItem({
     required String itemId,
     required Map<String, String> data,
+    required List<String> nonEditableKeys,
   }) async {
     final newPalette = state.palette.copyWith(
       items: state.palette.items.map(
         (item) {
           if (item.id == itemId) {
-            return UnoPaletteItem.fromMetadata(data);
+            return UnoPaletteItem.fromMetadata(data)
+                .copyWith(nonEditableProperties: nonEditableKeys);
           }
           return item;
         },

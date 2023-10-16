@@ -32,6 +32,7 @@ class UnoPaletteItem with _$UnoPaletteItem {
     required String id,
     required String type,
     required Map<String, String> data,
+    List<String>? nonEditableProperties,
     String? icon,
     String? iconSprite,
   }) = _UnoPaletteItem;

@@ -8,12 +8,15 @@ export 'metadata_dialog_form.dart';
 class MetadataDialogForm extends StatefulWidget {
   const MetadataDialogForm({
     required this.data,
+    required this.nonEditableKeys,
     required this.onChange,
     this.onReload,
     super.key,
   });
 
   final Map<String, String> data;
+
+  final List<String> nonEditableKeys;
 
   final void Function(String, String) onChange;
 
@@ -70,6 +73,7 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                     width: 200,
                     child: TextField(
                       controller: _controllers[entry.key],
+                      enabled: !widget.nonEditableKeys.contains(entry.key),
                       decoration: InputDecoration(
                         labelText: entry.key,
                       ),

@@ -2,22 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:nes_ui/nes_ui.dart';
 import 'package:uno/helpers/uno.dart';
 
+class MetadataDialogResult {
+  const MetadataDialogResult({
+    required this.data,
+    required this.nonEditableKeys,
+  });
+
+  final Map<String, String> data;
+  final List<String> nonEditableKeys;
+}
+
 class MetadataDialogForm extends StatefulWidget {
   const MetadataDialogForm({
     required this.data,
+    required this.nonEditableKeys,
     super.key,
   });
 
   final Map<String, String> data;
+  final List<String> nonEditableKeys;
 
-  static Future<Map<String, String>?> show(
+  static Future<MetadataDialogResult?> show(
     BuildContext context, {
     required Map<String, String> data,
+    required List<String> nonEditableKeys,
   }) {
-    return NesDialog.show<Map<String, String>>(
+    return NesDialog.show<MetadataDialogResult>(
       context: context,
       builder: (_) {
-        return MetadataDialogForm(data: data);
+        return MetadataDialogForm(
+          data: data,
+          nonEditableKeys: nonEditableKeys,
+        );
       },
     );
   }
@@ -28,14 +44,19 @@ class MetadataDialogForm extends StatefulWidget {
 
 class _MetadataDialogFormState extends State<MetadataDialogForm> {
   late Map<String, TextEditingController> _controllers;
+  late List<String> _nonEditableKeys;
 
   @override
   void initState() {
     super.initState();
 
+    _nonEditableKeys = [...widget.nonEditableKeys];
+
     _controllers = {
       for (final entry in widget.data.entries)
-        entry.key: TextEditingController(text: entry.value),
+        entry.key: TextEditingController(
+          text: entry.value,
+        ),
     };
   }
 
@@ -57,11 +78,11 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
           children: [
             for (final entry in _controllers.entries)
               SizedBox(
-                width: 440,
+                width: 600,
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 400,
+                      width: 520,
                       child: Column(
                         children: [
                           TextField(
@@ -75,7 +96,23 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    if (!reservedDataKeys.contains(entry.key))
+                    if (!reservedDataKeys.contains(entry.key)) ...[
+                      Opacity(
+                        opacity: _nonEditableKeys.contains(entry.key) ? 0.5 : 1,
+                        child: NesIconButton(
+                          icon: NesIcons.edit,
+                          onPress: () async {
+                            setState(() {
+                              if (_nonEditableKeys.contains(entry.key)) {
+                                _nonEditableKeys.remove(entry.key);
+                              } else {
+                                _nonEditableKeys.add(entry.key);
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       NesIconButton(
                         icon: NesIcons.delete,
                         onPress: () async {
@@ -92,6 +129,7 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                           }
                         },
                       ),
+                    ],
                   ],
                 ),
               ),
@@ -127,13 +165,19 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                 NesButton(
                   type: NesButtonType.primary,
                   onPressed: () {
+                    final newData =
+                        _controllers.entries.fold<Map<String, String>>(
+                      {},
+                      (previousValue, element) {
+                        previousValue[element.key] = element.value.text;
+                        return previousValue;
+                      },
+                    );
+
                     Navigator.of(context).pop(
-                      _controllers.entries.fold<Map<String, String>>(
-                        {},
-                        (previousValue, element) {
-                          previousValue[element.key] = element.value.text;
-                          return previousValue;
-                        },
+                      MetadataDialogResult(
+                        data: newData,
+                        nonEditableKeys: _nonEditableKeys,
                       ),
                     );
                   },

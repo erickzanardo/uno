@@ -198,6 +198,7 @@ mixin _$UnoPaletteItem {
   String get id => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   Map<String, String> get data => throw _privateConstructorUsedError;
+  List<String>? get nonEditableProperties => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
   String? get iconSprite => throw _privateConstructorUsedError;
 
@@ -217,6 +218,7 @@ abstract class $UnoPaletteItemCopyWith<$Res> {
       {String id,
       String type,
       Map<String, String> data,
+      List<String>? nonEditableProperties,
       String? icon,
       String? iconSprite});
 }
@@ -237,6 +239,7 @@ class _$UnoPaletteItemCopyWithImpl<$Res, $Val extends UnoPaletteItem>
     Object? id = null,
     Object? type = null,
     Object? data = null,
+    Object? nonEditableProperties = freezed,
     Object? icon = freezed,
     Object? iconSprite = freezed,
   }) {
@@ -253,6 +256,10 @@ class _$UnoPaletteItemCopyWithImpl<$Res, $Val extends UnoPaletteItem>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      nonEditableProperties: freezed == nonEditableProperties
+          ? _value.nonEditableProperties
+          : nonEditableProperties // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -277,6 +284,7 @@ abstract class _$$UnoPaletteItemImplCopyWith<$Res>
       {String id,
       String type,
       Map<String, String> data,
+      List<String>? nonEditableProperties,
       String? icon,
       String? iconSprite});
 }
@@ -295,6 +303,7 @@ class __$$UnoPaletteItemImplCopyWithImpl<$Res>
     Object? id = null,
     Object? type = null,
     Object? data = null,
+    Object? nonEditableProperties = freezed,
     Object? icon = freezed,
     Object? iconSprite = freezed,
   }) {
@@ -311,6 +320,10 @@ class __$$UnoPaletteItemImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      nonEditableProperties: freezed == nonEditableProperties
+          ? _value._nonEditableProperties
+          : nonEditableProperties // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -330,9 +343,11 @@ class _$UnoPaletteItemImpl implements _UnoPaletteItem {
       {required this.id,
       required this.type,
       required final Map<String, String> data,
+      final List<String>? nonEditableProperties,
       this.icon,
       this.iconSprite})
-      : _data = data;
+      : _data = data,
+        _nonEditableProperties = nonEditableProperties;
 
   factory _$UnoPaletteItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$UnoPaletteItemImplFromJson(json);
@@ -349,6 +364,17 @@ class _$UnoPaletteItemImpl implements _UnoPaletteItem {
     return EqualUnmodifiableMapView(_data);
   }
 
+  final List<String>? _nonEditableProperties;
+  @override
+  List<String>? get nonEditableProperties {
+    final value = _nonEditableProperties;
+    if (value == null) return null;
+    if (_nonEditableProperties is EqualUnmodifiableListView)
+      return _nonEditableProperties;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? icon;
   @override
@@ -356,7 +382,7 @@ class _$UnoPaletteItemImpl implements _UnoPaletteItem {
 
   @override
   String toString() {
-    return 'UnoPaletteItem(id: $id, type: $type, data: $data, icon: $icon, iconSprite: $iconSprite)';
+    return 'UnoPaletteItem(id: $id, type: $type, data: $data, nonEditableProperties: $nonEditableProperties, icon: $icon, iconSprite: $iconSprite)';
   }
 
   @override
@@ -367,6 +393,8 @@ class _$UnoPaletteItemImpl implements _UnoPaletteItem {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
+            const DeepCollectionEquality()
+                .equals(other._nonEditableProperties, _nonEditableProperties) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.iconSprite, iconSprite) ||
                 other.iconSprite == iconSprite));
@@ -374,8 +402,14 @@ class _$UnoPaletteItemImpl implements _UnoPaletteItem {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type,
-      const DeepCollectionEquality().hash(_data), icon, iconSprite);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      type,
+      const DeepCollectionEquality().hash(_data),
+      const DeepCollectionEquality().hash(_nonEditableProperties),
+      icon,
+      iconSprite);
 
   @JsonKey(ignore: true)
   @override
@@ -397,6 +431,7 @@ abstract class _UnoPaletteItem implements UnoPaletteItem {
       {required final String id,
       required final String type,
       required final Map<String, String> data,
+      final List<String>? nonEditableProperties,
       final String? icon,
       final String? iconSprite}) = _$UnoPaletteItemImpl;
 
@@ -409,6 +444,8 @@ abstract class _UnoPaletteItem implements UnoPaletteItem {
   String get type;
   @override
   Map<String, String> get data;
+  @override
+  List<String>? get nonEditableProperties;
   @override
   String? get icon;
   @override

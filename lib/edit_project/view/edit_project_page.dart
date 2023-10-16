@@ -145,12 +145,14 @@ class _PaletteItemCard extends StatelessWidget {
                     final data = await MetadataDialogForm.show(
                       context,
                       data: item.metadata(),
+                      nonEditableKeys: item.nonEditableProperties ?? const [],
                     );
 
                     if (data != null) {
                       await cubit.updatePaletteItem(
                         itemId: item.id,
-                        data: data,
+                        data: data.data,
+                        nonEditableKeys: data.nonEditableKeys,
                       );
                     }
                   },
