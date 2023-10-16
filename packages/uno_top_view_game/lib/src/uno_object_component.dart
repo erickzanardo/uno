@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pathxp/pathxp.dart';
 import 'package:uno_data/uno_data.dart';
 import 'package:uno_top_view_game/uno_top_view_game.dart';
 
@@ -144,6 +145,35 @@ class UnoObjectComponent extends PositionComponent
   @mustCallSuper
   FutureOr<void> onLoad() async {
     await super.onLoad();
+
+    final pathRaw = object.metadata['path'];
+    if (pathRaw != null && pathRaw.isNotEmpty) {
+      final pathxp = Pathxp(pathRaw).path;
+
+      var lastPath = pathxp.path.map((step) {
+        return switch (step) {
+          PathDirection.T => (null, false),
+          PathDirection.B => (null, true),
+          PathDirection.L => (false, null),
+          PathDirection.R => (true, null),
+        };
+      }).toList();
+
+      path = [...lastPath];
+      if (pathxp.repeating) {
+        onPathComplete = () {
+          lastPath = lastPath.reversed
+              .map(
+                (e) => (
+                  e.$1 == null ? null : !e.$1!,
+                  e.$2 == null ? null : !e.$2!
+                ),
+              )
+              .toList();
+          path = [...lastPath];
+        };
+      }
+    }
 
     movingNotifier.addListener(_onMove);
   }

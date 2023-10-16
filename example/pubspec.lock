@@ -148,13 +148,13 @@ packages:
     source: hosted
     version: "1.8.3"
   pathxp:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pathxp
-      sha256: e5a74d6f89b07f92689a027d3ed2ca160d1a9f91820812e5abe6fe89bf9111bf
+      sha256: "21d9ec4dda62b953236d08d8e383d6f87c8ec5b9f50d549d3e635a8d542ca00e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
