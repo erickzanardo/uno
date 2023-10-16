@@ -25,6 +25,7 @@ void main() async {
 class AdventureGame extends UnoTopViewGame with HasKeyboardHandlerComponents {
   AdventureGame({required super.level}) : super(tileSize: gameTileSize) {
     registerObjectBuilder('start_point', Player.builder);
+    registerObjectBuilder('scorpion', Scorpion.builder);
     registerObjectBuilder(
       'ground',
       (object) => Ground.builder(

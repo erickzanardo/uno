@@ -22,6 +22,28 @@ class UnoObjectComponent extends PositionComponent
   /// The object that this component represents.
   final UnoLevelObject object;
 
+  /// The path that this object will follow.
+  List<(bool?, bool?)>? get path => _path;
+
+  /// Sets the path that this object will follow.
+  set path(List<(bool?, bool?)>? value) {
+    _path = value;
+    _onPath();
+  }
+
+  List<(bool?, bool?)>? _path;
+
+  /// Called when the object finishes following the path.
+  VoidCallback? onPathComplete;
+
+  void _onPath() {
+    if (_path != null && _path!.isNotEmpty) {
+      final path = _path!.removeAt(0);
+      moving = path;
+      _onMove();
+    }
+  }
+
   final _moving = ValueNotifier<(bool?, bool?)>((null, null));
 
   /// Returns a notifier that indicates if the object is moving.
@@ -162,7 +184,17 @@ class UnoObjectComponent extends PositionComponent
                 );
 
                 _busy = false;
-                if (_moving.value.$1 != null || _moving.value.$2 != null) {
+
+                if (_path != null) {
+                  if (_path!.isEmpty) {
+                    _moving.value = (null, null);
+                    _path = null;
+                    onPathComplete?.call();
+                  } else {
+                    _onPath();
+                  }
+                } else if (_moving.value.$1 != null ||
+                    _moving.value.$2 != null) {
                   _onMove();
                 }
               },
