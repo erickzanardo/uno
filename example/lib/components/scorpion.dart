@@ -21,10 +21,13 @@ class Scorpion extends SpriteComponent
   FutureOr<void> onLoad() async {
     await super.onLoad();
 
+    add(FlippingSpriteHorizontally(initialDirection: false));
+    add(BoundOnMove(startMoving: true, duration: .2, offset: Vector2(0, -2)));
+
     sprite = await gameRef.loadSprite(
       'sprites.png',
       srcSize: Vector2.all(16),
-      srcPosition: Vector2(48, 0),
+      srcPosition: Vector2.all(16),
     );
   }
 }

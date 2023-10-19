@@ -18,6 +18,8 @@ class Player extends SpriteComponent
     return [Player()];
   }
 
+  var lastDirection = true;
+
   @override
   FutureOr<void> onLoad() async {
     await super.onLoad();
@@ -27,6 +29,9 @@ class Player extends SpriteComponent
       'sprites.png',
       srcSize: Vector2.all(16),
     );
+
+    add(FlippingSpriteHorizontally());
+    add(BoundOnMove());
 
     add(
       KeyboardListenerComponent(

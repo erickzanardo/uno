@@ -43,7 +43,7 @@ class AdventureGame extends UnoTopViewGame with HasKeyboardHandlerComponents {
   FutureOr<void> onLoad() async {
     final spritesImage = await images.load('sprites.png');
     final groundExp = SpritExp(
-      expression: '{0, 16, 16, 16} * 3yx',
+      expression: '{0, 48, 16, 16} * 3yx',
     );
     _groundSprites = groundExp / spritesImage;
 
