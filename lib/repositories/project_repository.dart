@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:uno_data/uno_data.dart';
 
 class ProjectRepositoryFailure implements Exception {
@@ -49,6 +50,19 @@ class ProjectRepository {
     return UnoProject(
       projecPath: directoryPath,
       levels: levels.map((file) => file.path).toList(),
+      palette: palette,
+    );
+  }
+
+  Future<UnoProject> newProject(String projectPath) async {
+    const palette = UnoPalette(items: []);
+
+    final paletteFile = path.join(projectPath, 'game_objects.uno');
+    await File(paletteFile).writeAsString(jsonEncode(palette.toJson()));
+
+    return UnoProject(
+      projecPath: projectPath,
+      levels: [],
       palette: palette,
     );
   }

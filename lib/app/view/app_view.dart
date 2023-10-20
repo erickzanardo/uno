@@ -74,6 +74,14 @@ class _SelectProject extends StatelessWidget {
                   context.read<AppCubit>().selectProject();
                 },
               ),
+              const SizedBox(height: 16),
+              NesButton(
+                type: NesButtonType.primary,
+                child: const Text('New Project'),
+                onPressed: () {
+                  context.read<AppCubit>().newProject();
+                },
+              ),
             ],
           ),
         ),

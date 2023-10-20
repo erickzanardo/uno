@@ -32,6 +32,19 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  Future<void> newProject() async {
+    final path = await _getDirectoryPath();
+    if (path != null) {
+      try {
+        emit(const AppLoading());
+        final project = await _projectRepository.newProject(path);
+        emit(AppLoaded(project: project));
+      } catch (e) {
+        emit(AppLoadError(message: e.toString()));
+      }
+    }
+  }
+
   Future<void> reloadProject() async {
     try {
       if (state is AppLoaded) {
