@@ -6,7 +6,7 @@ import 'package:uno_data/uno_data.dart';
 import 'package:uno_top_view_game/uno_top_view_game.dart';
 
 /// A builder for a list of components based in its [UnoLevelObject].
-typedef UnoObjectComponentBuilder = List<Component> Function(
+typedef UnoObjectComponentBuilder = FutureOr<List<Component>> Function(
   UnoLevelObject object,
 );
 
@@ -103,9 +103,8 @@ class UnoTopViewGame extends FlameGame {
         priority: obj.z,
       );
 
-      unawaited(
-        component.addAll(builder(obj)),
-      );
+      final components = await builder(obj);
+      await component.addAll(components);
 
       world.add(component);
 
