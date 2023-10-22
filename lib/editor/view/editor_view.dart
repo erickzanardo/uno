@@ -274,6 +274,13 @@ class _EditorViewState extends State<EditorView> {
                               final mappedDataObjects =
                                   <(int, int), List<UnoLevelObject>>{};
 
+                              final mappedPaletteItems =
+                                  Map<String, UnoPaletteItem>.fromEntries(
+                                appState.project.palette.items.map(
+                                  (e) => MapEntry(e.type, e),
+                                ),
+                              );
+
                               for (final object in mapData.objects) {
                                 final key = (object.x, object.y);
                                 (mappedDataObjects[key] ??= [])
@@ -287,6 +294,7 @@ class _EditorViewState extends State<EditorView> {
                                   mapData: mapData,
                                   cubit: cubit,
                                   mappedDataObjects: mappedDataObjects,
+                                  mappedPaletteItems: mappedPaletteItems,
                                   appState: appState,
                                 ),
                               );
@@ -468,6 +476,7 @@ class _Board extends StatelessWidget {
     required this.cubit,
     required this.appState,
     required this.mappedDataObjects,
+    required this.mappedPaletteItems,
   });
 
   final double cellSize;
@@ -475,6 +484,7 @@ class _Board extends StatelessWidget {
   final EditorCubit cubit;
   final AppLoaded appState;
   final Map<(int, int), List<UnoLevelObject>> mappedDataObjects;
+  final Map<String, UnoPaletteItem> mappedPaletteItems;
 
   @override
   Widget build(BuildContext context) {
@@ -513,7 +523,14 @@ class _Board extends StatelessWidget {
                                   final metadata =
                                       obj.metadata.editableMetadata();
 
-                                  if (metadata.isEmpty) {
+                                  final nonEditableKeys = mappedPaletteItems[
+                                              obj.metadataValue('type')]
+                                          ?.nonEditableProperties ??
+                                      [];
+
+                                  if (metadata.isEmpty ||
+                                      nonEditableKeys.length ==
+                                          metadata.length) {
                                     return Cell(
                                       metadata: obj.metadata,
                                     );
