@@ -31,32 +31,55 @@ class HomeView extends StatelessWidget {
               height: 48,
               child: Row(
                 children: [
-                  NesIconButton(
-                    icon: NesIcons.add,
-                    onPress: () {
-                      Navigator.of(context).push(EditorPage.route());
-                    },
+                  Expanded(
+                    child: Row(
+                      children: [
+                        NesIconButton(
+                          icon: NesIcons.add,
+                          onPress: () {
+                            Navigator.of(context).push(EditorPage.route());
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                        NesIconButton(
+                          icon: NesIcons.redo,
+                          onPress: () {
+                            context.read<AppCubit>().reloadProject();
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                        const Text('|'),
+                        const SizedBox(width: 16),
+                        NesTooltip(
+                          message: 'Edit project data',
+                          child: NesIconButton(
+                            icon: NesIcons.edit,
+                            onPress: () {
+                              Navigator.of(context)
+                                  .push(EditProjectPage.route())
+                                  .then((_) {
+                                cubit.reloadProject();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 16),
-                  NesIconButton(
-                    icon: NesIcons.redo,
-                    onPress: () {
-                      context.read<AppCubit>().reloadProject();
-                    },
-                  ),
-                  const SizedBox(width: 16),
-                  const Text('|'),
-                  const SizedBox(width: 16),
                   NesTooltip(
-                    message: 'Edit project data',
+                    message: 'Close project',
                     child: NesIconButton(
-                      icon: NesIcons.edit,
-                      onPress: () {
-                        Navigator.of(context)
-                            .push(EditProjectPage.route())
-                            .then((_) {
-                          cubit.reloadProject();
-                        });
+                      icon: NesIcons.close,
+                      onPress: () async {
+                        final cubit = context.read<AppCubit>();
+
+                        final confirmation = await NesConfirmDialog.show(
+                          context: context,
+                        );
+
+                        if (confirmation ?? false) {
+                          cubit.closeProject();
+                        }
                       },
                     ),
                   ),

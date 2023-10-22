@@ -57,4 +57,8 @@ class AppCubit extends Cubit<AppState> {
       emit(AppLoadError(message: e.toString()));
     }
   }
+
+  void closeProject() {
+    emit(const AppInitial());
+  }
 }
