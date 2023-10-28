@@ -11,7 +11,7 @@ dependencies:
   flame: ^1.9.1
   flutter:
     sdk: flutter
-  pathxp: ^0.2.0
+  pathxp: ^0.3.0
   uno_data:
     git:
       url: https://github.com/erickzanardo/uno.git
