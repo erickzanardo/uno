@@ -77,4 +77,14 @@ class AppCubit extends Cubit<AppState> {
       emit(AppLoaded(project: newProject));
     }
   }
+
+  void levelCopied(String newLevelPath) {
+    if (state is AppLoaded) {
+      final project = (state as AppLoaded).project;
+      final newProject = project.copyWith(
+        levels: [...project.levels, newLevelPath],
+      );
+      emit(AppLoaded(project: newProject));
+    }
+  }
 }

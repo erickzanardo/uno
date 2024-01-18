@@ -24,4 +24,17 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
+
+  Future<void> copyLevel(String level, String newPath) async {
+    try {
+      await _levelRepository.copyLevel(
+        level,
+        fileName: newPath,
+      );
+    } on Exception catch (e) {
+      emit(
+        HomeState(failure: 'Failed to copy level: $e'),
+      );
+    }
+  }
 }

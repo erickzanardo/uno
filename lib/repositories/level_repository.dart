@@ -42,4 +42,11 @@ class LevelRepository {
     final file = File(oldFileName);
     await file.rename(newFileName);
   }
+
+  Future<void> copyLevel(String level, {required String fileName}) async {
+    final file = File(fileName);
+    await file.writeAsString(
+      File(level).readAsStringSync(),
+    );
+  }
 }

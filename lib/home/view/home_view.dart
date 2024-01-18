@@ -120,6 +120,34 @@ class HomeView extends StatelessWidget {
                                 Row(
                                   children: [
                                     NesIconButton(
+                                      icon: NesIcons.copy,
+                                      onPress: () async {
+                                        final homeCubit =
+                                            context.read<HomeCubit>();
+                                        final appCubit =
+                                            context.read<AppCubit>();
+                                        final newName =
+                                            await NesInputDialog.show(
+                                          context: context,
+                                          message: 'Copy Name',
+                                        );
+
+                                        if (newName != null) {
+                                          final newPath = path.join(
+                                            appState.project.projecPath,
+                                            newName,
+                                          );
+                                          await homeCubit.copyLevel(
+                                            level,
+                                            newPath,
+                                          );
+
+                                          appCubit.levelCopied(newPath);
+                                        }
+                                      },
+                                    ),
+                                    const SizedBox(width: 16),
+                                    NesIconButton(
                                       icon: NesIcons.rename,
                                       onPress: () async {
                                         final homeCubit =
