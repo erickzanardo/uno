@@ -11,4 +11,17 @@ class HomeCubit extends Cubit<HomeState> {
         super(const HomeState());
 
   final LevelRepository _levelRepository;
+
+  Future<void> renameLevel(String oldFileName, String newFileName) async {
+    try {
+      await _levelRepository.renameLevel(
+        oldFileName: oldFileName,
+        newFileName: newFileName,
+      );
+    } on Exception catch (e) {
+      emit(
+        HomeState(failure: 'Failed to rename level: $e'),
+      );
+    }
+  }
 }

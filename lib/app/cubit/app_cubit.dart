@@ -61,4 +61,20 @@ class AppCubit extends Cubit<AppState> {
   void closeProject() {
     emit(const AppInitial());
   }
+
+  void fileRenamed({required String oldName, required String newName}) {
+    if (state is AppLoaded) {
+      final project = (state as AppLoaded).project;
+      final newProject = project.copyWith(
+        levels: project.levels.map((level) {
+          if (level == oldName) {
+            return newName;
+          } else {
+            return level;
+          }
+        }).toList(),
+      );
+      emit(AppLoaded(project: newProject));
+    }
+  }
 }

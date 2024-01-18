@@ -5,6 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:uno/app/cubit/app_cubit.dart';
 import 'package:uno/edit_project/edit_project.dart';
 import 'package:uno/editor/editor.dart';
+import 'package:uno/home/home.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -105,11 +106,52 @@ class HomeView extends StatelessWidget {
                             );
                           },
                           child: NesContainer(
-                            child: Text(
-                              path.relative(
-                                level,
-                                from: appState.project.projecPath,
-                              ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    path.relative(
+                                      level,
+                                      from: appState.project.projecPath,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Row(
+                                  children: [
+                                    NesIconButton(
+                                      icon: NesIcons.rename,
+                                      onPress: () async {
+                                        final homeCubit =
+                                            context.read<HomeCubit>();
+                                        final appCubit =
+                                            context.read<AppCubit>();
+                                        final newName =
+                                            await NesInputDialog.show(
+                                          context: context,
+                                          message: 'New Name',
+                                        );
+
+                                        if (newName != null) {
+                                          final newPath = path.join(
+                                            appState.project.projecPath,
+                                            newName,
+                                          );
+                                          await homeCubit.renameLevel(
+                                            level,
+                                            newPath,
+                                          );
+
+                                          appCubit.fileRenamed(
+                                            oldName: level,
+                                            newName: newPath,
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),

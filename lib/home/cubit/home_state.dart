@@ -2,11 +2,11 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
-    this.levels = const [],
+    this.failure,
   });
 
-  final List<String> levels;
+  final String? failure;
 
   @override
-  List<Object?> get props => [levels];
+  List<Object?> get props => [failure];
 }

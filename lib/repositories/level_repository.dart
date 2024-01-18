@@ -34,4 +34,12 @@ class LevelRepository {
     final file = File(fileName);
     await file.delete();
   }
+
+  Future<void> renameLevel({
+    required String oldFileName,
+    required String newFileName,
+  }) async {
+    final file = File(oldFileName);
+    await file.rename(newFileName);
+  }
 }
