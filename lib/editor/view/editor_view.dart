@@ -488,6 +488,8 @@ class _Board extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentLayer =
+        context.select((EditorCubit cubit) => cubit.state.currentLayer);
     return SizedBox(
       width: cellSize * mapData.width,
       height: cellSize * mapData.height,
@@ -528,19 +530,28 @@ class _Board extends StatelessWidget {
                                           ?.nonEditableProperties ??
                                       [];
 
+                                  late Widget cellChild;
                                   if (metadata.isEmpty ||
                                       nonEditableKeys.length ==
                                           metadata.length) {
-                                    return Cell(
+                                    cellChild = Cell(
                                       metadata: obj.metadata,
                                     );
                                   } else {
-                                    return DataObjectCell(
+                                    cellChild = DataObjectCell(
                                       object: obj,
                                       project: appState.project,
                                       child: child,
                                     );
                                   }
+
+                                  final opacity =
+                                      obj.z == currentLayer ? 1.0 : 0.2;
+
+                                  return Opacity(
+                                    opacity: opacity,
+                                    child: cellChild,
+                                  );
                                 },
                               )
                               .map(
