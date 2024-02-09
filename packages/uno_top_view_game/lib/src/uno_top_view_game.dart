@@ -118,7 +118,7 @@ class UnoTopViewGame extends FlameGame {
 
   /// Tells if a given object is walkable, by default, returns false,
   /// Override this method to change the behavior.
-  bool isWalkeable(UnoLevelObject object) {
+  bool isWalkeable(UnoLevelObject? object) {
     return false;
   }
 }

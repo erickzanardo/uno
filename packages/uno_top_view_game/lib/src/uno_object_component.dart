@@ -205,8 +205,7 @@ class UnoObjectComponent extends PositionComponent
           object.z - 1,
         );
 
-        final canMove =
-            destinationObject != null && gameRef.isWalkeable(destinationObject);
+        final canMove = gameRef.isWalkeable(destinationObject);
 
         if (canMove) {
           _busy = true;
@@ -220,8 +219,8 @@ class UnoObjectComponent extends PositionComponent
               duration: 1 / tilesPerSecond,
               onComplete: () {
                 position = Vector2(
-                  destinationObject.x * gameRef.tileSize,
-                  destinationObject.y * gameRef.tileSize,
+                  destinationIndex!.$1 * gameRef.tileSize,
+                  destinationIndex.$2 * gameRef.tileSize,
                 );
 
                 _busy = false;
