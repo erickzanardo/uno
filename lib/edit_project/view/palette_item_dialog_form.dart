@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_ui/nes_ui.dart';
 import 'package:uno/helpers/uno.dart';
+import 'package:uno/widgets/uno_sprite.dart';
 
 class MetadataDialogResult {
   const MetadataDialogResult({
@@ -81,135 +82,173 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 600,
+      width: 800,
       child: SingleChildScrollView(
-        child: Column(
+        child: Row(
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Category:'),
-            ),
-            const SizedBox(width: 8),
-            NesIterableOptions(
-              values: [null, ...widget.projectCategories],
-              onChange: (value) {
-                setState(() {
-                  _category = value;
-                });
-              },
-              value: _category,
-            ),
-            const SizedBox(height: 16),
-            for (final entry in _controllers.entries)
-              SizedBox(
-                width: 600,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 520,
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: entry.value,
-                            decoration: InputDecoration(
-                              labelText: entry.key,
+            Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Category:'),
+                ),
+                const SizedBox(width: 8),
+                NesIterableOptions(
+                  values: [null, ...widget.projectCategories],
+                  onChange: (value) {
+                    setState(() {
+                      _category = value;
+                    });
+                  },
+                  value: _category,
+                ),
+                const SizedBox(height: 16),
+                for (final entry in _controllers.entries)
+                  SizedBox(
+                    width: 600,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 520,
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: entry.value,
+                                onChanged: (_) {
+                                  if (entry.key.startsWith('icon')) {
+                                    setState(() {});
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  labelText: entry.key,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        if (!reservedDataKeys.contains(entry.key)) ...[
+                          Opacity(
+                            opacity:
+                                _nonEditableKeys.contains(entry.key) ? 0.5 : 1,
+                            child: NesIconButton(
+                              icon: NesIcons.edit,
+                              onPress: () async {
+                                setState(() {
+                                  if (_nonEditableKeys.contains(entry.key)) {
+                                    _nonEditableKeys.remove(entry.key);
+                                  } else {
+                                    _nonEditableKeys.add(entry.key);
+                                  }
+                                });
+                              },
                             ),
                           ),
-                          const SizedBox(height: 8),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    if (!reservedDataKeys.contains(entry.key)) ...[
-                      Opacity(
-                        opacity: _nonEditableKeys.contains(entry.key) ? 0.5 : 1,
-                        child: NesIconButton(
-                          icon: NesIcons.edit,
-                          onPress: () async {
-                            setState(() {
-                              if (_nonEditableKeys.contains(entry.key)) {
-                                _nonEditableKeys.remove(entry.key);
-                              } else {
-                                _nonEditableKeys.add(entry.key);
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      NesIconButton(
-                        icon: NesIcons.delete,
-                        onPress: () async {
-                          final confirm = await NesConfirmDialog.show(
-                            context: context,
-                            message:
-                                'Are you sure you want to delete this key?',
-                          );
+                          const SizedBox(width: 8),
+                          NesIconButton(
+                            icon: NesIcons.delete,
+                            onPress: () async {
+                              final confirm = await NesConfirmDialog.show(
+                                context: context,
+                                message: 'Are you sure you want to delete this '
+                                    'key?',
+                              );
 
-                          if (confirm ?? false) {
-                            setState(() {
-                              _controllers.remove(entry.key);
-                            });
-                          }
-                        },
-                      ),
-                    ],
+                              if (confirm ?? false) {
+                                setState(() {
+                                  _controllers.remove(entry.key);
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                NesIconButton(
+                  icon: NesIcons.add,
+                  onPress: () async {
+                    final keyName = await NesInputDialog.show(
+                      context: context,
+                      message: 'Key name',
+                    );
+
+                    if (keyName == null || keyName.isEmpty) {
+                      return;
+                    }
+
+                    setState(() {
+                      _controllers[keyName] = TextEditingController();
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    NesButton(
+                      type: NesButtonType.normal,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    const SizedBox(width: 16),
+                    NesButton(
+                      type: NesButtonType.primary,
+                      onPressed: () {
+                        final newData =
+                            _controllers.entries.fold<Map<String, String>>(
+                          {},
+                          (previousValue, element) {
+                            previousValue[element.key] = element.value.text;
+                            return previousValue;
+                          },
+                        );
+
+                        final category = _category;
+                        Navigator.of(context).pop(
+                          MetadataDialogResult(
+                            data: {
+                              if (category != null) 'category': category,
+                              ...newData,
+                            },
+                            nonEditableKeys: _nonEditableKeys,
+                          ),
+                        );
+                      },
+                      child: const Text('Save'),
+                    ),
                   ],
                 ),
-              ),
-            NesIconButton(
-              icon: NesIcons.add,
-              onPress: () async {
-                final keyName = await NesInputDialog.show(
-                  context: context,
-                  message: 'Key name',
-                );
-
-                if (keyName == null || keyName.isEmpty) {
-                  return;
-                }
-
-                setState(() {
-                  _controllers[keyName] = TextEditingController();
-                });
-              },
+              ],
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            const VerticalDivider(),
+            Column(
               children: [
-                NesButton(
-                  type: NesButtonType.normal,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
-                ),
-                const SizedBox(width: 16),
-                NesButton(
-                  type: NesButtonType.primary,
-                  onPressed: () {
-                    final newData =
-                        _controllers.entries.fold<Map<String, String>>(
-                      {},
-                      (previousValue, element) {
-                        previousValue[element.key] = element.value.text;
-                        return previousValue;
-                      },
-                    );
+                const Text('Icon Preview'),
+                const SizedBox(height: 8),
+                Builder(
+                  builder: (context) {
+                    final spriteExpression = _controllers['iconSprite']?.text;
+                    final spritePath = _controllers['icon']?.text;
 
-                    final category = _category;
-                    Navigator.of(context).pop(
-                      MetadataDialogResult(
-                        data: {
-                          if (category != null) 'category': category,
-                          ...newData,
-                        },
-                        nonEditableKeys: _nonEditableKeys,
+                    if (spriteExpression == null ||
+                        spritePath == null ||
+                        spritePath.isEmpty ||
+                        spriteExpression.isEmpty) {
+                      return const SizedBox();
+                    }
+
+                    return SizedBox.square(
+                      dimension: 100,
+                      child: UnoSprite(
+                        spritePath: spritePath,
+                        spriteExpression: spriteExpression,
                       ),
                     );
                   },
-                  child: const Text('Save'),
                 ),
               ],
             ),

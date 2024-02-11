@@ -35,10 +35,14 @@ class UnoSprite extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data;
         if (snapshot.hasData && data != null) {
-          final sprites = SpritExp(expression: spriteExpression) / data;
-          return SpriteWidget(
-            sprite: sprites.first,
-          );
+          try {
+            final sprites = SpritExp(expression: spriteExpression) / data;
+            return SpriteWidget(
+              sprite: sprites.first,
+            );
+          } catch (_) {
+            return const SizedBox();
+          }
         } else {
           return const SizedBox();
         }
