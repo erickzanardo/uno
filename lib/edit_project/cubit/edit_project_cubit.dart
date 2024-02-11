@@ -94,4 +94,28 @@ class EditProjectCubit extends Cubit<EditProjectState> {
 
     _savePalette(newPalette);
   }
+
+  void addPaletteCategory(String category) {
+    if (state.palette.categories?.contains(category) ?? false) {
+      return;
+    }
+
+    final newPalette = state.palette.copyWith(
+      categories: [
+        ...state.palette.categories ?? [],
+        category,
+      ],
+    );
+
+    _savePalette(newPalette);
+  }
+
+  void removePaletteCategory(String category) {
+    final newPalette = state.palette.copyWith(
+      categories:
+          state.palette.categories?.where((c) => c != category).toList(),
+    );
+
+    _savePalette(newPalette);
+  }
 }

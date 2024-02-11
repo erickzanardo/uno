@@ -14,12 +14,16 @@ _$UnoPaletteImpl _$$UnoPaletteImplFromJson(Map<String, dynamic> json) =>
       levelMetadata: (json['levelMetadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$UnoPaletteImplToJson(_$UnoPaletteImpl instance) =>
     <String, dynamic>{
       'items': instance.items,
       'levelMetadata': instance.levelMetadata,
+      'categories': instance.categories,
     };
 
 _$UnoPaletteItemImpl _$$UnoPaletteItemImplFromJson(Map<String, dynamic> json) =>
@@ -32,6 +36,7 @@ _$UnoPaletteItemImpl _$$UnoPaletteItemImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       icon: json['icon'] as String?,
       iconSprite: json['iconSprite'] as String?,
+      category: json['category'] as String?,
     );
 
 Map<String, dynamic> _$$UnoPaletteItemImplToJson(
@@ -43,4 +48,5 @@ Map<String, dynamic> _$$UnoPaletteItemImplToJson(
       'nonEditableProperties': instance.nonEditableProperties,
       'icon': instance.icon,
       'iconSprite': instance.iconSprite,
+      'category': instance.category,
     };

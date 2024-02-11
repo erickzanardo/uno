@@ -14,6 +14,7 @@ class UnoPalette with _$UnoPalette {
   const factory UnoPalette({
     required List<UnoPaletteItem> items,
     Map<String, String>? levelMetadata,
+    List<String>? categories,
   }) = _UnoPalette;
 
   /// {@macro uno_palette}
@@ -35,6 +36,7 @@ class UnoPaletteItem with _$UnoPaletteItem {
     List<String>? nonEditableProperties,
     String? icon,
     String? iconSprite,
+    String? category,
   }) = _UnoPaletteItem;
 
   /// {@macro uno_palette_item}

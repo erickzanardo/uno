@@ -17,6 +17,7 @@ class EditorCubit extends Cubit<EditorState> {
         super(
           EditorState(
             fileName: fileName,
+            paletteCategory: project.palette.categories?.first,
             level: UnoLevel(
               width: 10,
               height: 10,
@@ -33,6 +34,14 @@ class EditorCubit extends Cubit<EditorState> {
   bool get isEdition => _fileName != '';
 
   final UnoProject _project;
+
+  List<String> get paletteCategories => _project.palette.categories ?? const [];
+
+  void selectPaletteCategory(String? value) {
+    emit(
+      state.setPaletteCategory(value),
+    );
+  }
 
   void selectPaletteItem(UnoPaletteItem item) {
     emit(

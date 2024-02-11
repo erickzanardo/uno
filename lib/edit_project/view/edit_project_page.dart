@@ -43,6 +43,7 @@ class EditProjectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<EditProjectCubit>();
+    final paletteCategories = cubit.state.palette.categories;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -61,23 +62,83 @@ class EditProjectView extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 Text(
+                  'Palette categories',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Divider(),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: NesTooltip(
+                    arrowPlacement: NesTooltipArrowPlacement.right,
+                    message: 'Add new palette category',
+                    child: NesIconButton(
+                      onPress: () async {
+                        final name = await NesInputDialog.show(
+                          context: context,
+                          message: 'Category name',
+                        );
+
+                        if (name != null) {
+                          cubit.addPaletteCategory(name);
+                        }
+                      },
+                      icon: NesIcons.add,
+                    ),
+                  ),
+                ),
+                if (paletteCategories != null && paletteCategories.isNotEmpty)
+                  Wrap(
+                    children: [
+                      for (final category in paletteCategories)
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: NesContainer(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(category),
+                                const SizedBox(width: 8),
+                                NesIconButton(
+                                  size: const Size.square(16),
+                                  icon: NesIcons.close,
+                                  onPress: () async {
+                                    final confirmation =
+                                        await NesConfirmDialog.show(
+                                      context: context,
+                                    );
+
+                                    if (confirmation ?? false) {
+                                      cubit.removePaletteCategory(category);
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  )
+                else
+                  const Text('No categories'),
+                const SizedBox(height: 32),
+                Text(
                   'Project palette',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Divider(),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    NesTooltip(
-                      arrowPlacement: NesTooltipArrowPlacement.right,
-                      message: 'Add new palette item',
-                      child: NesIconButton(
-                        onPress: cubit.addPaletteItem,
-                        icon: NesIcons.add,
-                      ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: NesTooltip(
+                    arrowPlacement: NesTooltipArrowPlacement.right,
+                    message: 'Add new palette item',
+                    child: NesIconButton(
+                      onPress: cubit.addPaletteItem,
+                      icon: NesIcons.add,
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Wrap(
@@ -146,6 +207,7 @@ class _PaletteItemCard extends StatelessWidget {
                       context,
                       data: item.metadata(),
                       nonEditableKeys: item.nonEditableProperties ?? const [],
+                      projectCategories: cubit.state.palette.categories ?? [],
                     );
 
                     if (data != null) {

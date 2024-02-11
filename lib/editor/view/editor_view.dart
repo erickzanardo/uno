@@ -301,64 +301,90 @@ class _EditorViewState extends State<EditorView> {
                             },
                           ),
                         ),
-                        Column(
-                          children: [
-                            Expanded(
-                              child: NesContainer(
-                                height: double.infinity,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Wrap(
-                                        direction: Axis.vertical,
-                                        children: [
-                                          for (final item
-                                              in appState.project.palette.items)
-                                            NesTooltip(
-                                              message: item.type,
-                                              child: NesPressable(
-                                                onPress: () {
-                                                  cubit.selectPaletteItem(item);
-                                                },
-                                                child: SizedBox(
-                                                  width: 50,
-                                                  height: 50,
-                                                  child: Cell(
-                                                    metadata: item.metadata(),
+                        BlocBuilder<EditorCubit, EditorState>(
+                          buildWhen: (previous, current) =>
+                              previous.paletteCategory !=
+                              current.paletteCategory,
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: NesContainer(
+                                    height: double.infinity,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Wrap(
+                                            direction: Axis.vertical,
+                                            children: [
+                                              for (final item in appState
+                                                  .project.palette.items)
+                                                if (cubit.paletteCategories
+                                                        .isEmpty ||
+                                                    state.paletteCategory ==
+                                                        item.data['category'])
+                                                  NesTooltip(
+                                                    message: item.type,
+                                                    child: NesPressable(
+                                                      onPress: () {
+                                                        cubit.selectPaletteItem(
+                                                          item,
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child: Cell(
+                                                          metadata:
+                                                              item.metadata(),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            BlocBuilder<EditorCubit, EditorState>(
-                              builder: (context, state) {
-                                return Row(
-                                  children: [
-                                    NesIconButton(
-                                      icon: NesIcons.remove,
-                                      onPress: cubit.decreaseLayer,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Layer: ${state.currentLayer + 1}',
-                                    ),
-                                    const SizedBox(width: 4),
-                                    NesIconButton(
-                                      icon: NesIcons.add,
-                                      onPress: cubit.increaseLayer,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
+                                if (cubit.paletteCategories.isNotEmpty) ...[
+                                  const SizedBox(height: 8),
+                                  NesIterableOptions(
+                                    values: [
+                                      null,
+                                      ...cubit.paletteCategories,
+                                    ],
+                                    onChange: cubit.selectPaletteCategory,
+                                    value: state.paletteCategory,
+                                  ),
+                                  const SizedBox(height: 8),
+                                ],
+                                const SizedBox(height: 8),
+                                BlocBuilder<EditorCubit, EditorState>(
+                                  builder: (context, state) {
+                                    return Row(
+                                      children: [
+                                        NesIconButton(
+                                          icon: NesIcons.remove,
+                                          onPress: cubit.decreaseLayer,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'Layer: ${state.currentLayer + 1}',
+                                        ),
+                                        const SizedBox(width: 4),
+                                        NesIconButton(
+                                          icon: NesIcons.add,
+                                          onPress: cubit.increaseLayer,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),

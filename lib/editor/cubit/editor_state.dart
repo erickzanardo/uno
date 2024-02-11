@@ -54,6 +54,7 @@ class EditorState extends Equatable {
     this.status = EditorStatus.initial,
     this.selectedTool,
     this.lastSaved,
+    this.paletteCategory,
   });
 
   final String fileName;
@@ -70,12 +71,30 @@ class EditorState extends Equatable {
 
   final int totalLayers;
 
+  final String? paletteCategory;
+
   EditorState clearSelectedTool() {
     return EditorState(
       fileName: fileName,
       level: level,
       status: status,
       lastSaved: lastSaved,
+      currentLayer: currentLayer,
+      totalLayers: totalLayers,
+      paletteCategory: paletteCategory,
+    );
+  }
+
+  EditorState setPaletteCategory(String? category) {
+    return EditorState(
+      fileName: fileName,
+      level: level,
+      status: status,
+      lastSaved: lastSaved,
+      currentLayer: currentLayer,
+      totalLayers: totalLayers,
+      selectedTool: selectedTool,
+      paletteCategory: category,
     );
   }
 
@@ -88,6 +107,7 @@ class EditorState extends Equatable {
     DateTime? lastSaved,
     int? currentLayer,
     int? totalLayers,
+    String? paletteCategory,
   }) {
     return EditorState(
       fileName: fileName ?? this.fileName,
@@ -97,6 +117,7 @@ class EditorState extends Equatable {
       lastSaved: lastSaved ?? this.lastSaved,
       currentLayer: currentLayer ?? this.currentLayer,
       totalLayers: totalLayers ?? this.totalLayers,
+      paletteCategory: paletteCategory ?? this.paletteCategory,
     );
   }
 
@@ -109,5 +130,6 @@ class EditorState extends Equatable {
         lastSaved,
         currentLayer,
         totalLayers,
+        paletteCategory,
       ];
 }

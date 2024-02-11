@@ -6,26 +6,31 @@ class MetadataDialogResult {
   const MetadataDialogResult({
     required this.data,
     required this.nonEditableKeys,
+    this.category,
   });
 
   final Map<String, String> data;
   final List<String> nonEditableKeys;
+  final String? category;
 }
 
 class MetadataDialogForm extends StatefulWidget {
   const MetadataDialogForm({
     required this.data,
     required this.nonEditableKeys,
+    required this.projectCategories,
     super.key,
   });
 
   final Map<String, String> data;
   final List<String> nonEditableKeys;
+  final List<String> projectCategories;
 
   static Future<MetadataDialogResult?> show(
     BuildContext context, {
     required Map<String, String> data,
     required List<String> nonEditableKeys,
+    required List<String> projectCategories,
   }) {
     return NesDialog.show<MetadataDialogResult>(
       context: context,
@@ -33,6 +38,7 @@ class MetadataDialogForm extends StatefulWidget {
         return MetadataDialogForm(
           data: data,
           nonEditableKeys: nonEditableKeys,
+          projectCategories: projectCategories,
         );
       },
     );
@@ -46,6 +52,8 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
   late Map<String, TextEditingController> _controllers;
   late List<String> _nonEditableKeys;
 
+  late String? _category = widget.data['category'];
+
   @override
   void initState() {
     super.initState();
@@ -54,9 +62,10 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
 
     _controllers = {
       for (final entry in widget.data.entries)
-        entry.key: TextEditingController(
-          text: entry.value,
-        ),
+        if (entry.key != 'category')
+          entry.key: TextEditingController(
+            text: entry.value,
+          ),
     };
   }
 
@@ -76,6 +85,21 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Category:'),
+            ),
+            const SizedBox(width: 8),
+            NesIterableOptions(
+              values: [null, ...widget.projectCategories],
+              onChange: (value) {
+                setState(() {
+                  _category = value;
+                });
+              },
+              value: _category,
+            ),
+            const SizedBox(height: 16),
             for (final entry in _controllers.entries)
               SizedBox(
                 width: 600,
@@ -174,9 +198,13 @@ class _MetadataDialogFormState extends State<MetadataDialogForm> {
                       },
                     );
 
+                    final category = _category;
                     Navigator.of(context).pop(
                       MetadataDialogResult(
-                        data: newData,
+                        data: {
+                          if (category != null) 'category': category,
+                          ...newData,
+                        },
                         nonEditableKeys: _nonEditableKeys,
                       ),
                     );
