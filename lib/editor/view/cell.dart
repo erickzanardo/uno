@@ -1,15 +1,8 @@
-import 'dart:io';
-import 'dart:ui' as ui;
-
-import 'package:flame/flame.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nes_ui/nes_ui.dart';
-import 'package:path/path.dart' as path;
-import 'package:spritexp/spritexp.dart';
-import 'package:uno/app/app.dart';
 import 'package:uno/editor/editor.dart';
+import 'package:uno/widgets/widgets.dart';
 import 'package:uno_data/uno_data.dart';
 
 class DataObjectCell extends StatelessWidget {
@@ -118,50 +111,12 @@ class Cell extends StatelessWidget {
       ),
       child: metadata != null
           ? hasIcon
-              ? _CellIcon(
+              ? UnoSprite(
                   spritePath: icon!,
                   spriteExpression: iconSprite!,
                 )
               : Center(child: Text(metadata?['type']?.toInitials() ?? ''))
           : null,
-    );
-  }
-}
-
-class _CellIcon extends StatelessWidget {
-  const _CellIcon({
-    required this.spritePath,
-    required this.spriteExpression,
-  });
-
-  final String spritePath;
-  final String spriteExpression;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<ui.Image>(
-      future: Flame.images.fetchOrGenerate(spritePath, () async {
-        final appState = context.read<AppCubit>().state;
-        if (appState is! AppLoaded) {
-          throw Exception('App is not loaded');
-        }
-
-        final projectPath = appState.project.projecPath;
-        final imagePath = path.join(projectPath, spritePath);
-        final bytes = await File(imagePath).readAsBytes();
-        return decodeImageFromList(bytes);
-      }),
-      builder: (context, snapshot) {
-        final data = snapshot.data;
-        if (snapshot.hasData && data != null) {
-          final sprites = SpritExp(expression: spriteExpression) / data;
-          return SpriteWidget(
-            sprite: sprites.first,
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
     );
   }
 }

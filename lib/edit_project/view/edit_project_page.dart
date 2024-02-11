@@ -4,6 +4,7 @@ import 'package:nes_ui/nes_ui.dart';
 import 'package:uno/app/app.dart';
 import 'package:uno/edit_project/edit_project.dart';
 import 'package:uno/repositories/repositories.dart';
+import 'package:uno/widgets/widgets.dart';
 import 'package:uno_data/uno_data.dart';
 
 class EditProjectPage extends StatelessWidget {
@@ -193,6 +194,25 @@ class _PaletteItemCard extends StatelessWidget {
                         const SizedBox(height: 8),
                       ],
                     ),
+                  Builder(
+                    builder: (context) {
+                      final metadata = item.metadata();
+
+                      final spritePath = metadata['icon'];
+                      final spriteExpression = metadata['iconSprite'];
+                      if (spritePath != null && spriteExpression != null) {
+                        return SizedBox.square(
+                          dimension: 50,
+                          child: UnoSprite(
+                            spritePath: spritePath,
+                            spriteExpression: spriteExpression,
+                          ),
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 ],
               ),
             ),
