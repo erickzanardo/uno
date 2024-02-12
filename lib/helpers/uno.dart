@@ -3,4 +3,5 @@ const reservedDataKeys = [
   'type',
   'icon',
   'iconSprite',
+  'category',
 ];
